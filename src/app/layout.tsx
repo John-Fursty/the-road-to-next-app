@@ -1,9 +1,9 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, EB_Garamond, Noto_Sans, Playfair_Display, Figtree, Public_Sans } from "next/font/google";
-import { cn } from "@/lib/utils";
+import { EB_Garamond, Figtree, Geist, Geist_Mono, Noto_Sans, Playfair_Display, Public_Sans } from "next/font/google";
 import { Header } from "@/components/header";
 import { ThemeProvider } from "@/components/theme/theme-provider";
+import { cn } from "@/lib/utils";
 
 const geistHeading = Geist({subsets:['latin'],variable:'--font-heading'});
 
