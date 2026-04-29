@@ -3,6 +3,8 @@ import { Heading } from "@/components/heading";
 import { Spinner } from "@/features/ticket/components/spinner";
 import { TicketList } from "@/features/ticket/components/ticket-list";
 
+export const dynamic = "force-dynamic";
+
 const TicketsPage = () => {
   
   // const [tickets, setTickets] = useState<Ticket[]>([]);
