@@ -3,7 +3,7 @@ import { Heading } from "@/components/heading";
 import { Spinner } from "@/features/ticket/components/spinner";
 import { TicketList } from "@/features/ticket/components/ticket-list";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 0
 
 const TicketsPage = () => {
   
