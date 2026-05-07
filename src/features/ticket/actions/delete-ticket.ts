@@ -12,6 +12,6 @@ await prisma.ticket.delete({
     })
 
     revalidatePath(ticketsPath())
-    setCookieByKey("toast", "Ticket deleted");
+    await setCookieByKey("toast", "Ticket deleted");
     redirect(ticketsPath())
 }

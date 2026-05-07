@@ -53,11 +53,15 @@ return (
                 </CardTitle>
             </CardHeader>
 
-            <CardContent>
+            <CardContent className="flex flex-col gap-y-4">
                 <span className={clsx("whitespace-break-spaces", {
                     "line-clamp-3": !isDetail,
                 })}>{ticket.content}</span>
             </CardContent>
+            <CardFooter className="flex justify-between">
+                    <p className="text-sm text-muted-foreground">{ticket.deadline}</p>
+                    <p className="text-sm text-muted-foreground">{ticket.bounty}</p>
+            </CardFooter>
         </Card>
 
     <div className="flex flex-col gap-y-1">

@@ -4,7 +4,6 @@ import { Spinner } from "@/features/ticket/components/spinner";
 import { TicketList } from "@/features/ticket/components/ticket-list";
 import { CardCompact } from "@/components/card-compact";
 import { TicketUpsertForm } from "@/features/ticket/components/ticket-upsert-form";
-import { RedirectToast } from "@/features/ticket/components/redirect-toast";
 
 const TicketsPage = () => {
   
@@ -21,7 +20,6 @@ const TicketsPage = () => {
   // }, [])
 
   return ( 
-    <>
       <div className="flex-1 flex flex-col gap-y-8">
         <Heading title="Tickets" description="All your tickets at one place"/>
 
@@ -36,8 +34,7 @@ const TicketsPage = () => {
           <TicketList />
         </Suspense>
       </div>
-      <RedirectToast />
-    </>
+   
   );
 }
 

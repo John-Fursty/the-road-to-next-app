@@ -6,7 +6,7 @@ export const getCookieByKey = async (key: string) => {
     const cookieStore = await cookies()
     const cookie = cookieStore.get(key)
 
-    console.log("FROM GET_COOKIE", cookie)
+    // console.log("FROM GET_COOKIE", cookie)
 
     if (!cookie) return null
     
@@ -18,7 +18,7 @@ export const setCookieByKey = async (key: string, value: string) => {
 
     cookieStore.set(key, value);
 
-    console.log("FROM SETCOOKIE", cookieStore)
+    // console.log("FROM SETCOOKIE", cookieStore)
 }
 
 

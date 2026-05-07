@@ -11,14 +11,20 @@ import { setCookieByKey } from "@/actions/cookies"
 const upsertTicketScheme = z.object({
     title: z.string().min(1).max(10),
     content: z.string().min(1).max(1024),
+    deadline: z.string().regex(/^\d{2}.\d{2}.\d{4}$/, "Is required"),
+    bounty: z.coerce.number().positive()
 })
 
 export const upsertTicket = async (id:string | undefined, _actionState: ActionState, formData: FormData) => {
+    console.log("CHECK")
     try {
         const data = upsertTicketScheme.parse({
             title: formData.get("title"),
             content: formData.get("content"),
+            deadline: formData.get("deadline"),
+            bounty: formData.get("bounty"),
         })
+
 
         await prisma.ticket.upsert({
             where: {
@@ -35,7 +41,7 @@ export const upsertTicket = async (id:string | undefined, _actionState: ActionSt
     revalidatePath(ticketsPath());
 
     if (id) {
-        setCookieByKey("toast", "Ticket updated")
+        await setCookieByKey("toast", "Ticket updated")
         redirect(ticketPath(id));
     }
 

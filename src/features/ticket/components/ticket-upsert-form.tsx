@@ -13,12 +13,14 @@ import { ActionState, EMPTY_ACTION_STATE } from "@/components/form/utils/to-acti
 import { useActioncFeedback } from "@/components/form/hooks/use-action-feedback"
 import { Form } from "@/components/form/form"
 import { ActionDidNotRevalidate } from "next/dist/shared/lib/action-revalidation-kind"
+import { DatePicker } from "@/components/date-picker"
 
 type TicketUpsertFormProps = {
     ticket?: Ticket
 }
 
 export const TicketUpsertForm = ({ticket}: TicketUpsertFormProps) => {
+    
     const [actionState, action] = useActionState(upsertTicket.bind(null, ticket?.id), EMPTY_ACTION_STATE)
 
     return (
@@ -30,7 +32,21 @@ export const TicketUpsertForm = ({ticket}: TicketUpsertFormProps) => {
             <Label htmlFor="content">Content</Label>
             <Textarea name="content" id="content" defaultValue={ (actionState.payload?.get("content") as string) ?? ticket?.content}></Textarea>
             <FieldError actionState={actionState} name="content"/>
-          
+
+            <div className="flex flex-row flex-1 gap-x-2 w-full max-w-97">
+                    <Label className="flex flex-col items-start gap-y-2 w-full">
+                        Deadline
+                        <DatePicker defaultValue={ (actionState.payload?.get("deadline") as string) ?? ticket?.deadline} name="deadline"/> 
+                        {/* <FieldError actionSt ate={actionState} name="deadline"/> */}
+                    </Label>
+                
+                    <Label className="flex flex-col items-start gap-y-2 w-full">
+                        Bounty ($)
+                        <Input type="number" name="bounty" id="bounty" defaultValue={ (actionState.payload?.get("bounty") as string) ?? ticket?.bounty}/>
+                        {/* <FieldError actionState={actionState} name="bounty"/> */}
+                    </Label>
+            </div>         
+
            <SubmitButton label={ticket ? "Edit" : "Create"}/>
 
         </Form> 
