@@ -1,17 +1,18 @@
 "use server"
 
-import { z } from "zod"
-import { prisma } from "@/lib/prisma"
-import { ticketPath, ticketsPath } from "@/paths"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
-import { ActionState, fromErrorToAction, toActionState } from "@/components/form/utils/to-action-state"
+import { z } from "zod"
 import { setCookieByKey } from "@/actions/cookies"
+import { ActionState, fromErrorToAction, toActionState } from "@/components/form/utils/to-action-state"
+import { prisma } from "@/lib/prisma"
+import { ticketPath, ticketsPath } from "@/paths"
+import { toCent } from "@/utils/currency"
 
 const upsertTicketScheme = z.object({
     title: z.string().min(1).max(10),
     content: z.string().min(1).max(1024),
-    deadline: z.string().regex(/^\d{2}.\d{2}.\d{4}$/, "Is required"),
+    deadline: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Is required"),
     bounty: z.coerce.number().positive()
 })
 
@@ -25,13 +26,18 @@ export const upsertTicket = async (id:string | undefined, _actionState: ActionSt
             bounty: formData.get("bounty"),
         })
 
+        const dbData = {
+            ...data,
+            bounty: toCent(data.bounty),
+        }
+
 
         await prisma.ticket.upsert({
             where: {
                 id: id || "",
             },
-            update: data,
-            create: data,
+            update: dbData,
+            create: dbData,
         })
     } catch (error) {
         return fromErrorToAction(error, formData)

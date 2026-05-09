@@ -12,21 +12,23 @@ type useActioncFeedbackOptions = {
 
 const useActioncFeedback = (actionState: ActionState, options: useActioncFeedbackOptions) => {
     const prevTimestamp = useRef(actionState.timestamp)
-    const isUpdate = prevTimestamp.current !== actionState.timestamp
+    // const isUpdate = prevTimestamp.current !== actionState.timestamp
 
     useEffect(() => {
-            if (!isUpdate) return;
+            if (prevTimestamp.current !== actionState.timestamp) {
+                if (actionState.status === "SUCCESS") {
+                    options.onSuccess?.({ actionState });
+                }
 
-            if (actionState.status === "SUCCESS") {
-                 options.onSuccess?.({ actionState });
+                if (actionState.status === "ERROR") {
+                    options.onError?.({ actionState });
+                }
+
+                prevTimestamp.current = actionState.timestamp;
+            } else {
+                return;
             }
-
-            if (actionState.status === "ERROR") {
-                options.onError?.({ actionState });
-            }
-
-            prevTimestamp.current = actionState.timestamp;
-        }, [isUpdate, actionState, options])
+        }, [actionState, options])
 }
 
 export { useActioncFeedback }

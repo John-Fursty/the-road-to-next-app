@@ -3,8 +3,8 @@ import type { Metadata } from "next";
 import { EB_Garamond, Figtree, Geist, Geist_Mono, Noto_Sans, Playfair_Display, Public_Sans } from "next/font/google";
 import { Header } from "@/components/header";
 import { ThemeProvider } from "@/components/theme/theme-provider";
-import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/sonner";
+import { cn } from "@/lib/utils";
 
 const geistHeading = Geist({subsets:['latin'],variable:'--font-heading'});
 

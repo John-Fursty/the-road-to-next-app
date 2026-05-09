@@ -1,14 +1,15 @@
 "use client"
 
 import clsx from "clsx";
-import { LucidePencil, LucideSquareArrowOutUpRight, LucideTrash } from "lucide-react";
+import { LucideMoreVertical, LucidePencil, LucideSquareArrowOutUpRight } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter,CardHeader, CardTitle } from "@/components/ui/card";
 import { TICKET_ICONS } from "@/features/constants";
 import { Ticket } from "@/generated/prisma/client";
 import { ticketEditPath, ticketPath } from "@/paths";
-import { deleteTicket } from "../actions/delete-ticket";
+import { toCurrencyFromCent } from "@/utils/currency";
+import { TicketMoreMenu } from "./ticket-more-menu";
 
 type TicketItemProps = {
     ticket: Ticket,
@@ -32,13 +33,10 @@ const editButton = (
     </form>
 )
 
-const deleteButton = (
-    <form action={deleteTicket.bind(null, ticket.id)}>
-        <Button variant="outline" size="icon">
-            <LucideTrash className="h-4 w-4"/>
-        </Button>
-    </form>
-)
+
+const moreMenu = <TicketMoreMenu ticket={ticket} trigger={<Button variant="outline" size="icon">
+                    <LucideMoreVertical className="h-4 w-4"/>
+                </Button>} />
     
 return (
     <div className={clsx("w-full max-w-105 flex gap-x-1", {
@@ -60,12 +58,12 @@ return (
             </CardContent>
             <CardFooter className="flex justify-between">
                     <p className="text-sm text-muted-foreground">{ticket.deadline}</p>
-                    <p className="text-sm text-muted-foreground">{ticket.bounty}</p>
+                    <p className="text-sm text-muted-foreground">{toCurrencyFromCent(ticket.bounty)}</p>
             </CardFooter>
         </Card>
 
     <div className="flex flex-col gap-y-1">
-        {isDetail ? <>{editButton} {deleteButton} </> : <>{detailButton} {editButton}</>}
+        {isDetail ? <>{editButton} {moreMenu}</> : <>{detailButton} {editButton}</>}
     </div>      
     
     </div>

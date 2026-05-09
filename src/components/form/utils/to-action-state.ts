@@ -4,7 +4,7 @@ export type ActionState = { status?: "SUCCESS" | "ERROR", message: string, paylo
 
 export const EMPTY_ACTION_STATE: ActionState = { message: "", fieldErrors: {}, timestamp: Date.now()}
 
-export const fromErrorToAction = (error: unknown, formData:FormData): ActionState => {
+export const fromErrorToAction = (error: unknown, formData?:FormData): ActionState => {
     if (error instanceof ZodError) {
         const flattened = z.flattenError(error);
 

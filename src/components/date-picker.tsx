@@ -1,47 +1,63 @@
 "use client"
 
-import * as React from "react"
 import { format } from "date-fns"
-import { Calendar as CalendarIcon } from "lucide-react"
-
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { LucideCalendar } from "lucide-react"
+import { useImperativeHandle, useState } from "react"
+ import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
-
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-export function DatePicker({ defaultValue, name = "deadline" } : { defaultValue?: string, name?:string }) {
-  const [date, setDate] = React.useState<Date | undefined>()
-  // React.useEffect(() => {
-  //   console.log(date)
-  // }, [date])
+export type ImperativeHandleFromDatePicker = {reset: () => void} | null
 
-  const formattedData = date ? format(date, "dd.MM.yyyy") : defaultValue
+type DatePickerProps = {
+  id: string,
+  name:string,
+  defaultValue?: string | undefined,
+  imperativeHandleRef?: React.RefObject<ImperativeHandleFromDatePicker>
+}
+
+const DatePicker = ({id, name, defaultValue, imperativeHandleRef } : DatePickerProps) => {
+  const [date, setDate] = useState<Date | undefined>(defaultValue ? new Date(defaultValue) : new Date())
+
+  const [open, setOpen] = useState(false)
+
+  const handlerSelect = (selectedDate: Date | undefined) => {
+    setDate(selectedDate);
+    setOpen(false)
+  }
+
+  useImperativeHandle(imperativeHandleRef, () => ({
+    reset: () => setDate(new Date())
+  }))
+
+  const formattedStringDate = date ? format(date, "yyyy-MM-dd") : ""
 
   return (
     <>
     {/* TODO: fix uncontroll element by using https://react.dev/reference/react-dom/components/input#controlling-an-input-with-a-state-variable */}
-      <input type="hidden" name={name} value={formattedData}/>
+      <input type="hidden" name={name} value={formattedStringDate}/>
 
-      <Popover>
-        <PopoverTrigger asChild>
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger className="w-full" id={id} asChild>
           <Button
             variant="outline"
             data-empty={!date}
-            className="w-full max-w-47.5 justify-start text-left font-normal data-[empty=true]"
+            className="justify-start text-left font-normal"
           >
-            {date ? format(date, "dd.MM.yyyy") : defaultValue ? defaultValue : <span className="text-muted-foreground">dd.mm.yyyy</span>}
-            <CalendarIcon className="ml-4"/>
+            {formattedStringDate}
+            <LucideCalendar className="ml-18"/>
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0">
-          <Calendar mode="single" selected={date} onSelect={setDate} />
+          <Calendar mode="single" selected={date} onSelect={handlerSelect} />
         </PopoverContent>
       </Popover>
     </>
   )
 }
+
+export { DatePicker }

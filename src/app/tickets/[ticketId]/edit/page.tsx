@@ -1,7 +1,7 @@
+import { notFound } from "next/navigation";
 import { CardCompact } from "@/components/card-compact"
 import { TicketUpsertForm } from "@/features/ticket/components/ticket-upsert-form";
 import { getTicket } from "@/features/ticket/queries/get-ticket";
-import { notFound } from "next/navigation";
 
 type TicketEditPageProps = {
     params: {
@@ -10,7 +10,7 @@ type TicketEditPageProps = {
 }
 
 const ticketEditPage = async ({ params }: TicketEditPageProps) => {
-    const resolvedParams = await ( params as any);
+    const resolvedParams = await ( params);
     const ticket = await getTicket(resolvedParams.ticketId)
 
     if (!ticket) {
