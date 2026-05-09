@@ -4,20 +4,10 @@ import { Heading } from "@/components/heading";
 import { Spinner } from "@/features/ticket/components/spinner";
 import { TicketList } from "@/features/ticket/components/ticket-list";
 import { TicketUpsertForm } from "@/features/ticket/components/ticket-upsert-form";
+import { getBaseUrl } from "@/utils/url";
 
 const TicketsPage = () => {
-  
-  // const [tickets, setTickets] = useState<Ticket[]>([]);
-
-  // useEffect(() => {
-  //   const fetchTickets = async () => {
-  //     const result = await getTickets();
-
-  //     setTickets(result);
-  //   }
-
-  //   fetchTickets();
-  // }, [])
+  console.log(getBaseUrl())
 
   return ( 
       <div className="flex-1 flex flex-col gap-y-8">
