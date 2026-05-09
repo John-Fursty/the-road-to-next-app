@@ -28,7 +28,7 @@ const useActioncFeedback = (actionState: ActionState, options: useActioncFeedbac
             } else {
                 return;
             }
-        }, [actionState, options])
+        }, [ actionState, options])
 }
 
 export { useActioncFeedback }
