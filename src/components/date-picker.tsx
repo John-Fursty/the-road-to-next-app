@@ -46,10 +46,10 @@ const DatePicker = ({id, name, defaultValue, imperativeHandleRef } : DatePickerP
           <Button
             variant="outline"
             data-empty={!date}
-            className="justify-start text-left font-normal"
+            className="justify-between text-left font-normal"
           >
             {formattedStringDate}
-            <LucideCalendar className="ml-18"/>
+            <LucideCalendar className=""/>
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0">
