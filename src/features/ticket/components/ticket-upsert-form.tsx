@@ -46,7 +46,7 @@ export const TicketUpsertForm = ({ticket}: TicketUpsertFormProps) => {
                 
                 <div className="w-1/2 flex flex-col gap-y-1">
                     <Label htmlFor="bounty">Bounty ($)</Label> 
-                    <Input type="number" name="bounty" id="bounty"  step=".01" defaultValue={ (actionState.payload?.get("bounty") as string) ?? (ticket?.bounty ? fromCent(ticket?.bounty) : "")}/>
+                    <Input type="number" name="bounty" id="bounty" min="0"  step=".01" defaultValue={ (actionState.payload?.get("bounty") as string) ?? (ticket?.bounty ? fromCent(ticket?.bounty) : "")}/>
                     <FieldError actionState={actionState} name="bounty"/>
                 </div>
             </div>         

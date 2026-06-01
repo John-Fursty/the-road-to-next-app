@@ -6,8 +6,9 @@ import { z } from "zod"
 import { setCookieByKey } from "@/actions/cookies"
 import { ActionState, fromErrorToAction, toActionState } from "@/components/form/utils/to-action-state"
 import { prisma } from "@/lib/prisma"
-import { ticketPath, ticketsPath } from "@/paths"
+import { signInPath, ticketPath, ticketsPath } from "@/paths"
 import { toCent } from "@/utils/currency"
+import { getAuth } from "@/features/auth/queries/get-auth"
 
 const upsertTicketScheme = z.object({
     title: z.string().min(1).max(10),
@@ -17,7 +18,12 @@ const upsertTicketScheme = z.object({
 })
 
 export const upsertTicket = async (id:string | undefined, _actionState: ActionState, formData: FormData) => {
-    console.log("CHECK")
+    const { user } = await getAuth()
+
+    if (!user) {
+        redirect(signInPath())
+    }
+
     try {
         const data = upsertTicketScheme.parse({
             title: formData.get("title"),
@@ -28,6 +34,7 @@ export const upsertTicket = async (id:string | undefined, _actionState: ActionSt
 
         const dbData = {
             ...data,
+            userId: user.id,
             bounty: toCent(data.bounty),
         }
 

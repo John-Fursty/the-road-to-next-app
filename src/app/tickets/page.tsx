@@ -4,10 +4,14 @@ import { Heading } from "@/components/heading";
 import { Spinner } from "@/features/ticket/components/spinner";
 import { TicketList } from "@/features/ticket/components/ticket-list";
 import { TicketUpsertForm } from "@/features/ticket/components/ticket-upsert-form";
-import { getBaseUrl } from "@/utils/url";
+import { signInPath } from "@/paths";
+import { redirect } from "next/navigation";
 
-const TicketsPage = () => {
-  console.log(getBaseUrl())
+export const dynamic = 'force-dynamic';
+
+const TicketsPage = async () => {
+
+  redirect(signInPath());
 
   return ( 
       <div className="flex-1 flex flex-col gap-y-8">
