@@ -29,12 +29,25 @@
   }
 } 
 
+@keyframes sidebar-from-left {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+} 
+
 @utility fade-in-from-top {
   animation: fade-in-from-top 0.5s ease-out;
 } 
 
 @utility header-from-top {
   animation: header-from-top 0.5s ease-out;
+} 
+
+@utility sidebar-from-left {
+  animation: sidebar-from-left 0.5s ease-out;
 } 
 
 @theme inline {

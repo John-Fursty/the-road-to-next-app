@@ -2,8 +2,9 @@
 
 import { lucia } from "@/lib/lucia"
 import { cookies } from "next/headers";
+import { cache } from "react";
 
-export const getAuth = async () => {
+export const getAuth = cache(async () => {
     const cookieStore = await cookies();
     const sessionId = cookieStore.get(lucia.sessionCookieName)?.value ?? null;
 
@@ -31,4 +32,4 @@ export const getAuth = async () => {
     }
 
     return result
-}
+});

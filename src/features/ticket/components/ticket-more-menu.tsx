@@ -1,3 +1,5 @@
+"use client"
+
 import { LucideTrash } from "lucide-react";
 import { toast } from "sonner";
 import { useConfirmDialog } from "@/components/confirm-dialog";

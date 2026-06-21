@@ -1,12 +1,11 @@
 "use client";
 
-import { LucideKanban, LucideLogOut } from "lucide-react"
+import { LucideKanban } from "lucide-react"
 import Link from "next/link"
 import { homePath, ticketsPath, signInPath, signUpPath } from "@/paths"
-import { ThemeSwitcher } from "./theme/theme-switcher"
-import { Button } from "./ui/button"
-import { SubmitButton } from "./form/submit-button"
-import { signOut } from "@/features/auth/actions/sign-out"
+import { ThemeSwitcher } from "../../components/theme/theme-switcher"
+import { Button } from "../../components/ui/button"
+import { AccountDropdown } from "./account-dropdown";
 import { useAuth } from "@/features/auth/hooks/use-auth";
 
 const Header = () => {
@@ -16,26 +15,15 @@ const Header = () => {
   
   const navItems = user ? (
       <>
-      <Button asChild variant="default" className="rounded-sm" >
-        <Link href={ticketsPath()}>Tickets</Link>
-      </Button>
-
-      <form action={signOut}>
-        {/* <SubmitButton label="Sign out" icon={<LucideLogOut />}/> */}
-        <SubmitButton icon={<LucideLogOut />}/>
-      </form>
+        <AccountDropdown user={user}/>
     </>
    ) : (
       <>
-        <Button asChild variant="default" className="rounded-sm" >
-          <Link href={ticketsPath()}>Tickets</Link>
-        </Button>
-
         <Button asChild variant="outline" className="rounded-sm" >
           <Link href={signUpPath()}>Sign Up</Link>
         </Button>
 
-        <Button asChild variant="outline" className="rounded-sm" >
+        <Button asChild variant="default" className="rounded-sm" >
           <Link href={signInPath()}>Sign In</Link>
         </Button>
       </>

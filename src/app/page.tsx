@@ -1,18 +1,22 @@
-import Link from "next/link";
 import { Heading } from "@/components/heading";
-import { ticketsPath } from "../paths";
+import { Spinner } from "@/features/ticket/components/spinner";
+import { TicketList } from "@/features/ticket/components/ticket-list";
+import { SearchParams } from "@/features/ticket/search-params";
+import { Suspense } from "react";
 
+type HomePageProps = {
+  searchParams: SearchParams;
+}
 
-const HomePage = () => {
+const HomePage = ({ searchParams }: HomePageProps) => {
   return (
     <div className="flex-1 flex flex-col gap-y-8">
-      <Heading title="Home Page" description="Your home place to start"/>
+      <Heading title="All Tickets" description="Tickets by everyone at one place"/>
 
-      <div className="flex-1 flex flex-col items-center">
-        <Link href={ticketsPath()} className="underline">
-        Go to Tickets
-        </Link>
-      </div>
+      
+      <Suspense fallback={<Spinner />}>
+        <TicketList searchParams={searchParams}/>
+      </Suspense>
     </div>
   );
 }

@@ -6,16 +6,22 @@ import { TicketList } from "@/features/ticket/components/ticket-list";
 import { TicketUpsertForm } from "@/features/ticket/components/ticket-upsert-form";
 import { signInPath } from "@/paths";
 import { redirect } from "next/navigation";
+import { getAuth } from "@/features/auth/queries/get-auth";
+import { SearchParams } from "@/features/ticket/search-params";
 
 export const dynamic = 'force-dynamic';
 
-const TicketsPage = async () => {
+type TicketsPageProps = {
+  searchParams: SearchParams;
+}
 
-  redirect(signInPath());
+const TicketsPage = async ({ searchParams }: TicketsPageProps) => {
+  const { user } = await getAuth();
 
   return ( 
+    
       <div className="flex-1 flex flex-col gap-y-8">
-        <Heading title="Tickets" description="All your tickets at one place"/>
+        <Heading title="My Tickets" description="All your tickets at one place"/>
 
         <CardCompact 
           title="Create Ticket"
@@ -25,7 +31,7 @@ const TicketsPage = async () => {
           />
 
         <Suspense fallback={<Spinner />}>
-          <TicketList />
+          <TicketList userId={user?.id} searchParams={searchParams}/>
         </Suspense>
       </div>
    
