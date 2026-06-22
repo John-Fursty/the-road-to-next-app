@@ -1,10 +1,10 @@
-import { NavItem } from "../types";
 import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
 import { cloneElement } from "react";
-import { closedClassName } from "../constants";
-import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
+import { closedClassName } from "../constants";
+import { NavItem } from "../types";
 
 type SidebarItemProps = {
     isOpen: boolean;

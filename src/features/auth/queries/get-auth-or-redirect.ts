@@ -1,5 +1,5 @@
-import { signInPath } from "@/paths";
 import { redirect } from "next/navigation";
+import { signInPath } from "@/paths";
 import { getAuth } from "./get-auth";
 
 export const getAuthOrRedirect = async () => {

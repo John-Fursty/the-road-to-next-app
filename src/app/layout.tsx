@@ -1,10 +1,12 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { EB_Garamond, Figtree, Geist, Geist_Mono, Noto_Sans, Playfair_Display, Public_Sans } from "next/font/google";
+import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import { Header } from "@/app/_navigation/header";
+import { SideBar } from "@/app/_navigation/sidebar/components/sidebar";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
-import { SideBar } from "@/app/_navigation/sidebar/components/sidebar";
+
 
 const geistHeading = Geist({subsets:['latin'],variable:'--font-heading'});
 
@@ -40,6 +42,7 @@ export default function RootLayout({
 
       <body className="">
         <ThemeProvider>
+          <NuqsAdapter>
           <Header />
           <div className="flex h-screen overflow-hidden border-collapse">
             <SideBar />
@@ -47,6 +50,7 @@ export default function RootLayout({
             <main className="min-h-screen flex-1 overflow-y-auto overflow-x-hidden py-24 px-8 bg-secondary/20 flex flex-col">{children}</main>
           </div>
           <Toaster expand/>
+          </NuqsAdapter>
         </ThemeProvider>      
       </body>
     </html>

@@ -5,13 +5,13 @@ import { LucideMoreVertical, LucidePencil, LucideSquareArrowOutUpRight } from "l
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter,CardHeader, CardTitle } from "@/components/ui/card";
+import { getAuth } from "@/features/auth/queries/get-auth";
+import { isOwner } from "@/features/auth/utils/is-owner";
 import { TICKET_ICONS } from "@/features/constants";
 import { Prisma } from "@/generated/prisma/client";
 import { ticketEditPath, ticketPath } from "@/paths";
 import { toCurrencyFromCent } from "@/utils/currency";
 import { TicketMoreMenu } from "./ticket-more-menu";
-import { getAuth } from "@/features/auth/queries/get-auth";
-import { isOwner } from "@/features/auth/utils/is-owner";
 
 type TicketItemProps = {
     ticket: Prisma.TicketGetPayload<{

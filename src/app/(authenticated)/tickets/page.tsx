@@ -1,13 +1,12 @@
+import { SearchParams } from "nuqs/server";
 import { Suspense } from "react";
 import { CardCompact } from "@/components/card-compact";
 import { Heading } from "@/components/heading";
+import { getAuth } from "@/features/auth/queries/get-auth";
 import { Spinner } from "@/features/ticket/components/spinner";
 import { TicketList } from "@/features/ticket/components/ticket-list";
 import { TicketUpsertForm } from "@/features/ticket/components/ticket-upsert-form";
-import { signInPath } from "@/paths";
-import { redirect } from "next/navigation";
-import { getAuth } from "@/features/auth/queries/get-auth";
-import { SearchParams } from "@/features/ticket/search-params";
+import { searchParamsCache } from "@/features/ticket/search-params";
 
 export const dynamic = 'force-dynamic';
 
@@ -31,7 +30,7 @@ const TicketsPage = async ({ searchParams }: TicketsPageProps) => {
           />
 
         <Suspense fallback={<Spinner />}>
-          <TicketList userId={user?.id} searchParams={searchParams}/>
+          <TicketList userId={user?.id} searchParams={searchParamsCache.parse(searchParams)}/>
         </Suspense>
       </div>
    

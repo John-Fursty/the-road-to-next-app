@@ -1,31 +1,47 @@
 import { prisma } from "@/lib/prisma";
-import { SearchParams } from "../search-params";
+import { ParseSearchParams } from "../search-params";
 
-export const getTickets = async (userId: string | undefined, searchParams: SearchParams) => {
+export const getTickets = async (userId: string | undefined, searchParams: ParseSearchParams) => {
     const resolvedSearchParams = await searchParams;
-    return await prisma.ticket.findMany({
-        where: {
-            userId,
-            ...(typeof resolvedSearchParams.search === "string" && {
-            title: {
-                contains: resolvedSearchParams.search,
-                mode: "insensitive",
-            },
-          }),
-        },
-        orderBy: {
-            // createdAt: "desc",
-            ...(resolvedSearchParams.sort === undefined && { createdAt: "desc"}),
-            ...(resolvedSearchParams.sort === "bounty" && { bounty: "desc"}),
-        },
-        include: {
-            user: {
-                select: {
-                    username: true,
-                }
-            },
-        }
-    })
-
     
+    const where = {
+        userId,
+        title: {
+            contains: resolvedSearchParams.search,
+            mode: "insensitive" as const,
+        },
+    }
+
+    const skip = resolvedSearchParams.page * resolvedSearchParams.size;
+    const take = resolvedSearchParams.size;
+    
+    const [tickets, count] = await prisma.$transaction([
+        prisma.ticket.findMany({
+            where,
+            skip,
+            take,
+            orderBy: {
+                [resolvedSearchParams.sortKey]: resolvedSearchParams.sortValue
+            },
+            include: {
+                user: {
+                    select: {
+                        username: true,
+                    }
+                },
+            }
+        }),
+        prisma.ticket.count({
+            where,
+        }),
+    ])
+
+    return {
+        list: tickets,
+        metadata: {
+            count,
+            hasNextPage: count > skip + take,
+        },
+    };
+ 
 };
