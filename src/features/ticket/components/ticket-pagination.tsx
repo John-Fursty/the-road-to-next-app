@@ -1,10 +1,10 @@
 "use client";
 
 import { useQueryState, useQueryStates } from "nuqs";
-import { paginationOptions, paginationParser, searchParser } from "../search-params";
+import { useEffect, useRef } from "react";
 import { Pagination } from "@/components/pagination";
 import { Ticket } from "@/generated/prisma/client";
-import { useEffect, useRef } from "react";
+import { paginationOptions, paginationParser, searchParser } from "../search-params";
 
 type TicketPaginationProps = {
     paginationTicketMetadata: {

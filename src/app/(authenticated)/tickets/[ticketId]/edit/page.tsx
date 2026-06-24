@@ -1,47 +1,49 @@
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/breadcrumbs";
-import { CardCompact } from "@/components/card-compact"
+import { CardCompact } from "@/components/card-compact";
 import { Separator } from "@/components/ui/separator";
-import { getAuth } from "@/features/auth/queries/get-auth";
-import { isOwner } from "@/features/auth/utils/is-owner";
 import { TicketUpsertForm } from "@/features/ticket/components/ticket-upsert-form";
 import { getTicket } from "@/features/ticket/queries/get-ticket";
 import { homePath, ticketPath, ticketsPath } from "@/paths";
 
 type TicketEditPageProps = {
-    params: {
-        ticketId: string;
-    };
-}
+  params: {
+    ticketId: string;
+  };
+};
 
 const ticketEditPage = async ({ params }: TicketEditPageProps) => {
-    const { user } = await getAuth();
-    
-    const resolvedParams = await ( params);
-    const ticket = await getTicket(resolvedParams.ticketId)
+  const resolvedParams = await params;
+  const ticket = await getTicket(resolvedParams.ticketId);
 
-    const isTicketFound = !!ticket
-    const isTicketOwner = isOwner(user, ticket);
+  const isTicketFound = !!ticket;
 
-    if (!isTicketFound || !isTicketOwner) {
-        notFound();
-    }
+  if (!isTicketFound || !ticket.isOwner) {
+    notFound();
+  }
 
-    return (
-        <div className="flex-1 flex flex-col gap-y-8">
-            <Breadcrumbs breadcrumbs={[
-                { title: "Tickets", href: homePath() },
-                { title: ticket.title, href: ticketPath(ticket.id) },
-                { title: "Edit"}
-            ]} />
+  return (
+    <div className="flex-1 flex flex-col gap-y-8">
+      <Breadcrumbs
+        breadcrumbs={[
+          { title: "Tickets", href: homePath() },
+          { title: ticket.title, href: ticketPath(ticket.id) },
+          { title: "Edit" },
+        ]}
+      />
 
-            <Separator />
+      <Separator />
 
-            <div className="flex flex-col justify-center items-center flex-1">
-            <CardCompact title="Edit ticket" description="Edit an current ticket" className="w-full max-w-105 fade-in-from-top" content={<TicketUpsertForm ticket={ticket}/>} />
-            </div>
-        </div>
-    )
-}
+      <div className="flex flex-col justify-center items-center flex-1">
+        <CardCompact
+          title="Edit ticket"
+          description="Edit an current ticket"
+          className="w-full max-w-105 fade-in-from-top"
+          content={<TicketUpsertForm ticket={ticket} />}
+        />
+      </div>
+    </div>
+  );
+};
 
 export default ticketEditPage;

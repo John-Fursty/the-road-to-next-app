@@ -10,5 +10,6 @@
  */
 export type * from './models/User'
 export type * from './models/Session'
+export type * from './models/Comment'
 export type * from './models/Ticket'
 export type * from './commonInputTypes'

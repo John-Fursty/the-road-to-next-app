@@ -8,33 +8,34 @@ import { TicketList } from "@/features/ticket/components/ticket-list";
 import { TicketUpsertForm } from "@/features/ticket/components/ticket-upsert-form";
 import { searchParamsCache } from "@/features/ticket/search-params";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 type TicketsPageProps = {
   searchParams: SearchParams;
-}
+};
 
 const TicketsPage = async ({ searchParams }: TicketsPageProps) => {
   const { user } = await getAuth();
 
-  return ( 
-    
-      <div className="flex-1 flex flex-col gap-y-8">
-        <Heading title="My Tickets" description="All your tickets at one place"/>
+  return (
+    <div className="flex-1 flex flex-col gap-y-8">
+      <Heading title="My Tickets" description="All your tickets at one place" />
 
-        <CardCompact 
-          title="Create Ticket"
-          description="A new ticket will be created"
-          className="self-center w-full max-w-105"
-          content={<TicketUpsertForm />}
-          />
+      <CardCompact
+        title="Create Ticket"
+        description="A new ticket will be created"
+        className="self-center w-full max-w-105"
+        content={<TicketUpsertForm />}
+      />
 
-        <Suspense fallback={<Spinner />}>
-          <TicketList userId={user?.id} searchParams={searchParamsCache.parse(searchParams)}/>
-        </Suspense>
-      </div>
-   
+      <Suspense fallback={<Spinner />}>
+        <TicketList
+          userId={user?.id}
+          searchParams={searchParamsCache.parse(searchParams)}
+        />
+      </Suspense>
+    </div>
   );
-}
+};
 
-export default TicketsPage
+export default TicketsPage;
