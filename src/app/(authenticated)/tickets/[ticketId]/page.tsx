@@ -5,6 +5,7 @@ import { getComments } from "@/features/comment/queries/get-comments";
 import { TicketItem } from "@/features/ticket/components/ticket-item";
 import { getTicket } from "@/features/ticket/queries/get-ticket";
 import { homePath } from "@/paths";
+import { Comments } from "@/features/comment/components/comments";
 
 type TicketPageProps = {
   params: Promise<{ ticketId: string }>;
@@ -16,7 +17,7 @@ const TicketsPage = async ({ params }: TicketPageProps) => {
   const ticketPromise = getTicket(ticketId);
   const commentsPromise = getComments(ticketId);
 
-  const [ticket, comments] = await Promise.all([
+  const [ticket, paginatedComments] = await Promise.all([
     ticketPromise,
     commentsPromise,
   ]);
@@ -37,7 +38,16 @@ const TicketsPage = async ({ params }: TicketPageProps) => {
       <Separator />
 
       <div className="flex flex-col gap-y-5 items-center justify-center fade-in-from-top">
-        <TicketItem ticket={ticket} isDetail comments={comments} />
+        <TicketItem
+          ticket={ticket}
+          isDetail
+          comments={
+            <Comments
+              ticketId={ticket.id}
+              paginatedComments={paginatedComments}
+            />
+          }
+        />
       </div>
     </div>
   );
