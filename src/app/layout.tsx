@@ -1,20 +1,31 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { EB_Garamond, Figtree, Geist, Geist_Mono, Noto_Sans, Playfair_Display, Public_Sans } from "next/font/google";
-import { NuqsAdapter } from 'nuqs/adapters/next/app'
+import {
+  EB_Garamond,
+  Figtree,
+  Geist,
+  Geist_Mono,
+  Noto_Sans,
+  Playfair_Display,
+  Public_Sans,
+} from "next/font/google";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Header } from "@/app/_navigation/header";
 import { SideBar } from "@/app/_navigation/sidebar/components/sidebar";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { ReactQueryProvider } from "./_providers/react-query/react-query-provider";
 
+const geistHeading = Geist({ subsets: ["latin"], variable: "--font-heading" });
 
-const geistHeading = Geist({subsets:['latin'],variable:'--font-heading'});
+const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const ebGaramond = EB_Garamond({
+  subsets: ["latin"],
+  variable: "--font-serif",
+});
 
-const ebGaramond = EB_Garamond({subsets:['latin'],variable:'--font-serif'});
-
-const geistSans = Geist({ 
+const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
@@ -39,19 +50,22 @@ export default function RootLayout({
       lang="en"
       // className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, ebGaramond.variable, "font-sans", geist.variable, geistHeading.variable)}
     >
-
       <body className="">
         <ThemeProvider>
-          <NuqsAdapter>
-          <Header />
-          <div className="flex h-screen overflow-hidden border-collapse">
-            <SideBar />
+          <ReactQueryProvider>
+            <NuqsAdapter>
+              <Header />
+              <div className="flex h-screen overflow-hidden border-collapse">
+                <SideBar />
 
-            <main className="min-h-screen flex-1 overflow-y-auto overflow-x-hidden py-24 px-8 bg-secondary/20 flex flex-col">{children}</main>
-          </div>
-          <Toaster expand/>
-          </NuqsAdapter>
-        </ThemeProvider>      
+                <main className="min-h-screen flex-1 overflow-y-auto overflow-x-hidden py-24 px-8 bg-secondary/20 flex flex-col">
+                  {children}
+                </main>
+              </div>
+              <Toaster expand />
+            </NuqsAdapter>
+          </ReactQueryProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
