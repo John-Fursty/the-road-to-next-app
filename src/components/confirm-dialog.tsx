@@ -31,7 +31,7 @@ type UseConfirmDialogProps = {
   trigger:
     | React.ReactElement<{ onClick?: () => void }>
     | ((isPending: boolean) => React.ReactElement<{ onClick?: () => void }>);
-  onSuccess: (actionState: ActionState) => void;
+  onSuccess?: (actionState: ActionState) => void;
 };
 
 const useConfirmDialog = ({
