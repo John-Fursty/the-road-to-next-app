@@ -5,13 +5,13 @@
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",
-    "vercel-build": "prisma generate && npm install --force && npm run build",
+    "vercel-build": "prisma generate && next build",
     "start": "next start",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "lint-fix": "next lint --fix",
     "type": "tsc --noEmit",
-    "postintall": "prisma generate",
+    "postinstall": "prisma generate",
     "prisma-seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
