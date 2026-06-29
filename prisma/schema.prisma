@@ -12,9 +12,19 @@ model User {
   username String @unique
   email String @unique
   passwordHash String
-  sessions Session[]
+  sessions Session[] 
+  passwordResetTokens PasswordResetToken[]
   tickets Ticket[]
   comments Comment[]
+}
+
+model PasswordResetToken {
+  tokenHash String @id
+  expiresAt DateTime
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model Session {

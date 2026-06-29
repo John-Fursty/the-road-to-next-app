@@ -1,30 +1,32 @@
-import { PrismaAdapter } from "@lucia-auth/adapter-prisma"
-import { Lucia } from "lucia"
-import { prisma } from "./prisma"
+import { PrismaAdapter } from "@lucia-auth/adapter-prisma";
+import { Lucia } from "lucia";
+import { prisma } from "./prisma";
 
-const adapter = new PrismaAdapter(prisma.session, prisma.user)
+const adapter = new PrismaAdapter(prisma.session, prisma.user);
 
 export const lucia = new Lucia(adapter, {
-    sessionCookie: {
-        expires: false,
-        attributes: {
-            secure: process.env.NODE_ENV === "production",
-        },
+  sessionCookie: {
+    expires: false,
+    attributes: {
+      secure: process.env.NODE_ENV === "production",
     },
-    getUserAttributes: (attributes) => ({
-        username: attributes.username,
-        email: attributes.email,
-    }),
+  },
+  getUserAttributes: (attributes) => ({
+    username: attributes.username,
+    email: attributes.email,
+    passwordHash: attributes.passwordHash,
+  }),
 });
 
 declare module "lucia" {
-    interface Register {
-        Lucia: typeof lucia;
-        DatabaseUserAttributes: DatabaseUserAttributes
-    }
+  interface Register {
+    Lucia: typeof lucia;
+    DatabaseUserAttributes: DatabaseUserAttributes;
+  }
 }
 
 interface DatabaseUserAttributes {
-    username: string;
-    email: string;
+  username: string;
+  email: string;
+  passwordHash: string;
 }
