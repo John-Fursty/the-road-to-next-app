@@ -9,6 +9,9 @@ import {
 import { generatePasswordResetLink } from "../utils/generate-password-reset";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
 import { verifyPasswordHash } from "../utils/hash-and-verify";
+import { sendEmailPasswordReset } from "../emails/send-email-password-reset";
+import { prisma } from "@/lib/prisma";
+import { inngest } from "@/lib/inngest";
 
 const passwordChangeScheme = z.object({
   password: z.string().min(6).max(191),
@@ -25,6 +28,16 @@ export const passwordChange = async (
       password: formData.get("password"),
     });
 
+    const user = await prisma.user.findUnique({
+      where: { username: auth.user.username },
+    });
+
+    if (!user) {
+      // we should never reach this return statement
+      // but it's just in case
+      return toActionState("ERROR", "Incorrect email", formData);
+    }
+
     const validPassword = await verifyPasswordHash(
       auth.user.passwordHash,
       password,
@@ -36,8 +49,11 @@ export const passwordChange = async (
 
     const passwordResetLink = await generatePasswordResetLink(auth.user.id);
 
-    //TODO: Send email with password reset link
-    // instead of logging it to the console
+    await inngest.send({
+      name: "app/password.password-reset",
+      data: { userId: user.id },
+    });
+
     console.log(passwordResetLink);
   } catch (error) {
     return fromErrorToAction(error, formData);
