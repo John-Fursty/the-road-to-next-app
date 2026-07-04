@@ -7,10 +7,16 @@ import z from "zod";
 import {
   ActionState,
   fromErrorToAction,
+  toActionState,
 } from "@/components/form/utils/to-action-state";
 import { lucia } from "@/lib/lucia";
 import { prisma } from "@/lib/prisma";
 import { ticketsPath } from "@/paths";
+import { Prisma } from "@/generated/prisma/client";
+import { generateEmailVerificationCode } from "../utils/generate-email-verification-code";
+import { sendEmailVerification } from "../emails/send-email-verification";
+import { inngest } from "@/lib/inngest";
+import { generateRandomToken } from "@/utils/crypto";
 
 const signUpScheme = z
   .object({
@@ -57,6 +63,28 @@ export const signUp = async (_actionate: ActionState, formData: FormData) => {
       },
     });
 
+    const verificationCode = await generateEmailVerificationCode(
+      user.id,
+      email,
+    );
+
+    await inngest.send({
+      name: "app/auth.sign-up",
+      data: { userId: user.id },
+    });
+
+    // const sessionToken = generateRandomToken();
+    // const session = await lucia.createSession(sessionToken, user.id);
+    // const sessionCookie = lucia.createSessionCookie(session.id);
+
+    // const cookieStore = await cookies();
+
+    // cookieStore.set(
+    //   sessionCookie.name,
+    //   sessionCookie.value,
+    //   sessionCookie.attributes,
+    // );
+
     const session = await lucia.createSession(user.id, {});
     const sessionCookie = lucia.createSessionCookie(session.id);
 
@@ -68,6 +96,17 @@ export const signUp = async (_actionate: ActionState, formData: FormData) => {
       sessionCookie.attributes,
     );
   } catch (error) {
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code == "P2002"
+    ) {
+      return toActionState(
+        "ERROR",
+        "Either email or username is already in use",
+        formData,
+      );
+    }
+
     return fromErrorToAction(error, formData);
   }
 

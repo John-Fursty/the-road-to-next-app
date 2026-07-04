@@ -10,7 +10,6 @@ import { prisma } from "@/lib/prisma";
 import { generatePasswordResetLink } from "../utils/generate-password-reset";
 import { sendEmailPasswordReset } from "../emails/send-email-password-reset";
 import { inngest } from "@/lib/inngest";
-import { NextResponse } from "next/server";
 
 const passwordForgotScheme = z.object({
   email: z.email(),

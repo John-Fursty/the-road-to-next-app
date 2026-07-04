@@ -55,6 +55,14 @@ const seed = async () => {
   await prisma.comment.deleteMany();
   await prisma.ticket.deleteMany();
   await prisma.user.deleteMany();
+  await prisma.organization.deleteMany();
+  await prisma.membership.deleteMany();
+
+  const dbOrganization = await prisma.organization.create({
+    data: {
+      name: "Organization 1",
+    },
+  });
 
   const passwordHash = await hash("geheimnis");
 
@@ -63,6 +71,13 @@ const seed = async () => {
       ...user,
       passwordHash,
     })),
+  });
+
+  await prisma.membership.create({
+    data: {
+      userId: dbUsers[0].id,
+      organizationId: dbOrganization.id,
+    },
   });
 
   const dbTickets = await prisma.ticket.createManyAndReturn({
