@@ -14,7 +14,7 @@ const users = [
   {
     username: "user",
     email: "volynetsyan@gmail.com",
-    emailVerified: false,
+    emailVerified: true,
   },
 ];
 
