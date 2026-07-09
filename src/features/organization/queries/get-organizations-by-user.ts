@@ -16,6 +16,11 @@ const getOrganizationsByUser = async () => {
         },
       },
     },
+
+    orderBy: {
+      createdAt: "desc",
+    },
+
     include: {
       memberships: {
         where: {

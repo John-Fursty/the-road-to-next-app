@@ -12,13 +12,25 @@ import {
 import {
   LucideArrowLeftRight,
   LucideArrowUpRightFromSquare,
+  LucideLoaderCircle,
   LucidePen,
   LucideTrash,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { OrganizationSwitchButton } from "./organization-switch-button";
+import { SubmitButton } from "@/components/form/submit-button";
+import { OrganizationDeleteButton } from "./organization-delete-button";
 
-const OrganizationList = async () => {
+type OrganizationListProps = {
+  limitedAccess?: boolean;
+};
+
+const OrganizationList = async ({ limitedAccess }: OrganizationListProps) => {
   const organizations = await getOrganizationsByUser();
+
+  const hasActive = organizations.some(
+    (organization) => organization.membershipByUser.isActive,
+  );
 
   return (
     <div>
@@ -35,10 +47,27 @@ const OrganizationList = async () => {
 
         <TableBody>
           {organizations.map((organization) => {
+            const isActive = organization.membershipByUser.isActive;
+
             const switchButton = (
-              <Button variant="outline" size="icon">
-                <LucideArrowLeftRight className="w-4 h-4"></LucideArrowLeftRight>
-              </Button>
+              <OrganizationSwitchButton
+                organizationId={organization.id}
+                trigger={
+                  <SubmitButton
+                    icon={<LucideArrowLeftRight />}
+                    label={
+                      !hasActive ? "Activate" : isActive ? "Active" : "Switch"
+                    }
+                    variant={
+                      !hasActive
+                        ? "secondary"
+                        : isActive
+                          ? "default"
+                          : "outline"
+                    }
+                  />
+                }
+              />
             );
 
             const detailButton = (
@@ -54,17 +83,15 @@ const OrganizationList = async () => {
             );
 
             const deleteButton = (
-              <Button variant="destructive" size="icon">
-                <LucideTrash className="w-4 h-4"></LucideTrash>
-              </Button>
+              <OrganizationDeleteButton organizationId={organization.id} />
             );
 
             const buttons = (
               <>
                 {switchButton}
-                {detailButton}
-                {editButton}
-                {deleteButton}
+                {limitedAccess ? null : detailButton}
+                {limitedAccess ? null : editButton}
+                {limitedAccess ? null : deleteButton}
               </>
             );
 

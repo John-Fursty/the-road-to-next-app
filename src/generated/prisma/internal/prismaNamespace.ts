@@ -1055,7 +1055,8 @@ export type OrganizationScalarFieldEnum = (typeof OrganizationScalarFieldEnum)[k
 export const MembershipScalarFieldEnum = {
   organizationId: 'organizationId',
   userId: 'userId',
-  joinedAt: 'joinedAt'
+  joinedAt: 'joinedAt',
+  isActive: 'isActive'
 } as const
 
 export type MembershipScalarFieldEnum = (typeof MembershipScalarFieldEnum)[keyof typeof MembershipScalarFieldEnum]
