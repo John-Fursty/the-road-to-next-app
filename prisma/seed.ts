@@ -73,18 +73,28 @@ const seed = async () => {
     })),
   });
 
-  await prisma.membership.create({
-    data: {
-      userId: dbUsers[0].id,
-      organizationId: dbOrganization.id,
-      isActive: true,
-    },
+  await prisma.membership.createMany({
+    data: [
+      {
+        userId: dbUsers[0].id,
+        organizationId: dbOrganization.id,
+        isActive: true,
+        membershipRole: "ADMIN",
+      },
+      {
+        userId: dbUsers[1].id,
+        organizationId: dbOrganization.id,
+        isActive: false,
+        membershipRole: "MEMBER",
+      },
+    ],
   });
 
   const dbTickets = await prisma.ticket.createManyAndReturn({
     data: tickets.map((ticket) => ({
       ...ticket,
       userId: dbUsers[0].id,
+      organizationId: dbOrganization.id,
     })),
   });
 

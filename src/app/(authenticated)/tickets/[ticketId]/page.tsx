@@ -11,7 +11,7 @@ type TicketPageProps = {
   params: Promise<{ ticketId: string }>;
 };
 
-const TicketsPage = async ({ params }: TicketPageProps) => {
+const TicketPage = async ({ params }: TicketPageProps) => {
   const { ticketId } = await params;
 
   const ticketPromise = getTicket(ticketId);
@@ -53,4 +53,4 @@ const TicketsPage = async ({ params }: TicketPageProps) => {
   );
 };
 
-export default TicketsPage;
+export default TicketPage;

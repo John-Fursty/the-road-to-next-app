@@ -13,6 +13,7 @@ model Organization {
   updatedAt DateTime @updatedAt
   name String
   memberships Membership[]
+  tickets Ticket[]
 }
 
 model Membership {
@@ -23,10 +24,19 @@ model Membership {
 
   joinedAt DateTime @default(now())
   isActive Boolean
+  membershipRole MembershipRole @default(MEMBER)
+
+  // permissions
+  canDeleteTicket Boolean @default(true)
 
   @@id(name: "membershipId", [organizationId, userId])
   @@index([userId])
   @@index([organizationId])
+}
+
+enum MembershipRole {
+  MEMBER
+  ADMIN
 }
 
 model User {
@@ -96,9 +106,12 @@ model Ticket {
   bounty Int 
   userId String 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId String
   comments Comment[]
 
   @@index([userId])
+  @@index([organizationId])
 }
 
 enum TicketStatus {

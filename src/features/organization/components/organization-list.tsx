@@ -20,6 +20,9 @@ import { Button } from "@/components/ui/button";
 import { OrganizationSwitchButton } from "./organization-switch-button";
 import { SubmitButton } from "@/components/form/submit-button";
 import { OrganizationDeleteButton } from "./organization-delete-button";
+import Link from "next/link";
+import { membershipsPath } from "@/paths";
+import { MembershipDeleteButton } from "@/features/membership/components/membership-delete-button";
 
 type OrganizationListProps = {
   limitedAccess?: boolean;
@@ -41,6 +44,7 @@ const OrganizationList = async ({ limitedAccess }: OrganizationListProps) => {
             <TableHead>Name</TableHead>
             <TableHead>Joined At</TableHead>
             <TableHead>Members</TableHead>
+            <TableHead>My Role</TableHead>
             <TableHead />
           </TableRow>
         </TableHeader>
@@ -48,6 +52,8 @@ const OrganizationList = async ({ limitedAccess }: OrganizationListProps) => {
         <TableBody>
           {organizations.map((organization) => {
             const isActive = organization.membershipByUser.isActive;
+            const isAmin =
+              organization.membershipByUser.membershipRole === "ADMIN";
 
             const switchButton = (
               <OrganizationSwitchButton
@@ -71,8 +77,10 @@ const OrganizationList = async ({ limitedAccess }: OrganizationListProps) => {
             );
 
             const detailButton = (
-              <Button variant="outline" size="icon">
-                <LucideArrowUpRightFromSquare className="w-4 h-4"></LucideArrowUpRightFromSquare>
+              <Button variant="outline" size="icon" asChild>
+                <Link href={membershipsPath(organization.id)}>
+                  <LucideArrowUpRightFromSquare className="w-4 h-4"></LucideArrowUpRightFromSquare>
+                </Link>
               </Button>
             );
 
@@ -82,16 +90,28 @@ const OrganizationList = async ({ limitedAccess }: OrganizationListProps) => {
               </Button>
             );
 
+            const leaveButton = (
+              <MembershipDeleteButton
+                organizationId={organization.id}
+                userId={organization.membershipByUser.userId}
+              />
+            );
+
             const deleteButton = (
               <OrganizationDeleteButton organizationId={organization.id} />
+            );
+
+            const placeholer = (
+              <Button size="icon" disabled className="disabled:opacity-0" />
             );
 
             const buttons = (
               <>
                 {switchButton}
-                {limitedAccess ? null : detailButton}
-                {limitedAccess ? null : editButton}
-                {limitedAccess ? null : deleteButton}
+                {limitedAccess ? null : isAmin ? detailButton : placeholer}
+                {limitedAccess ? null : isAmin ? editButton : placeholer}
+                {limitedAccess ? null : leaveButton}
+                {limitedAccess ? null : isAmin ? deleteButton : placeholer}
               </>
             );
 
@@ -106,6 +126,9 @@ const OrganizationList = async ({ limitedAccess }: OrganizationListProps) => {
                   )}
                 </TableCell>
                 <TableCell>{organization._count.memberships}</TableCell>
+                <TableCell>
+                  {organization.membershipByUser.membershipRole}
+                </TableCell>
                 <TableCell className="flex justify-end gap-x-2">
                   {buttons}
                 </TableCell>

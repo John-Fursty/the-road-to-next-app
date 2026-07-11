@@ -91,7 +91,9 @@ export const MembershipScalarFieldEnum = {
   organizationId: 'organizationId',
   userId: 'userId',
   joinedAt: 'joinedAt',
-  isActive: 'isActive'
+  isActive: 'isActive',
+  membershipRole: 'membershipRole',
+  canDeleteTicket: 'canDeleteTicket'
 } as const
 
 export type MembershipScalarFieldEnum = (typeof MembershipScalarFieldEnum)[keyof typeof MembershipScalarFieldEnum]
@@ -157,7 +159,8 @@ export const TicketScalarFieldEnum = {
   status: 'status',
   deadline: 'deadline',
   bounty: 'bounty',
-  userId: 'userId'
+  userId: 'userId',
+  organizationId: 'organizationId'
 } as const
 
 export type TicketScalarFieldEnum = (typeof TicketScalarFieldEnum)[keyof typeof TicketScalarFieldEnum]
