@@ -361,10 +361,6 @@ export type CommentUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.CommentScalarWhereInput | Prisma.CommentScalarWhereInput[]
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
-}
-
 export type CommentCreateNestedManyWithoutTicketInput = {
   create?: Prisma.XOR<Prisma.CommentCreateWithoutTicketInput, Prisma.CommentUncheckedCreateWithoutTicketInput> | Prisma.CommentCreateWithoutTicketInput[] | Prisma.CommentUncheckedCreateWithoutTicketInput[]
   connectOrCreate?: Prisma.CommentCreateOrConnectWithoutTicketInput | Prisma.CommentCreateOrConnectWithoutTicketInput[]

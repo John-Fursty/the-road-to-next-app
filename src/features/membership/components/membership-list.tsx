@@ -56,7 +56,6 @@ const MembershipsList = async ({ organizationId }: MembershipsListProps) => {
               {deleteButton}
             </>
           );
-          console.log(membership.membershipRole);
 
           return (
             <TableRow key={membership.userId}>

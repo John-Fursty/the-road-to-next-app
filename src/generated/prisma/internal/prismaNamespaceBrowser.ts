@@ -52,6 +52,7 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Organization: 'Organization',
+  Invitation: 'Invitation',
   Membership: 'Membership',
   User: 'User',
   EmailVerificationToken: 'EmailVerificationToken',
@@ -85,6 +86,18 @@ export const OrganizationScalarFieldEnum = {
 } as const
 
 export type OrganizationScalarFieldEnum = (typeof OrganizationScalarFieldEnum)[keyof typeof OrganizationScalarFieldEnum]
+
+
+export const InvitationScalarFieldEnum = {
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  tokenHash: 'tokenHash',
+  email: 'email',
+  organizationId: 'organizationId',
+  invitedByUserId: 'invitedByUserId'
+} as const
+
+export type InvitationScalarFieldEnum = (typeof InvitationScalarFieldEnum)[keyof typeof InvitationScalarFieldEnum]
 
 
 export const MembershipScalarFieldEnum = {

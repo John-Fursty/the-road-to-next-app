@@ -3,31 +3,32 @@ import { MembershipsList } from "@/features/membership/components/membership-lis
 import { Spinner } from "@/features/ticket/components/spinner";
 import { Suspense } from "react";
 import { OrganizationBreadcrumbs } from "../_navigation/tabs";
+import { InvitationList } from "@/features/invitation/components/invitation-list";
 import { InvitationCreateButton } from "@/features/invitation/components/invitation-create-button";
 
-type MembershipsPageProps = {
+type InvitationsPageProps = {
   params: Promise<{
     organizationId: string;
   }>;
 };
 
-const MembershipsPage = async ({ params }: MembershipsPageProps) => {
+const InvitationsPage = async ({ params }: InvitationsPageProps) => {
   const { organizationId } = await params;
 
   return (
     <div className="flex-1 flex flex-col gap-y-8">
       <Heading
-        title="Memberships"
-        description="Manage members in your organization"
+        title="Invitations"
+        description="Manage members in organization's invitations"
         tabs={<OrganizationBreadcrumbs />}
         actions={<InvitationCreateButton organizationId={organizationId} />}
       ></Heading>
 
       <Suspense fallback={<Spinner />}>
-        <MembershipsList organizationId={organizationId} />
+        <InvitationList organizationId={organizationId} />
       </Suspense>
     </div>
   );
 };
 
-export default MembershipsPage;
+export default InvitationsPage;
