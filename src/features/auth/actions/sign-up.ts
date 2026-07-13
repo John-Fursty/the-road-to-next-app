@@ -12,11 +12,9 @@ import {
 import { lucia } from "@/lib/lucia";
 import { prisma } from "@/lib/prisma";
 import { ticketsPath } from "@/paths";
-import { Prisma } from "@/generated/prisma/client";
+import { MembershipRole, Prisma } from "@/generated/prisma/client";
 import { generateEmailVerificationCode } from "../utils/generate-email-verification-code";
-import { sendEmailVerification } from "../emails/send-email-verification";
 import { inngest } from "@/lib/inngest";
-import { generateRandomToken } from "@/utils/crypto";
 
 const signUpScheme = z
   .object({
@@ -63,10 +61,37 @@ export const signUp = async (_actionate: ActionState, formData: FormData) => {
       },
     });
 
+    const invitations = await prisma.invitation.findMany({
+      where: {
+        email,
+      },
+    });
+
+    console.log(invitations);
+
+    await prisma.$transaction([
+      prisma.invitation.deleteMany({
+        where: {
+          email,
+        },
+      }),
+
+      prisma.membership.createMany({
+        data: invitations.map((invitation) => ({
+          organizationId: invitation.organizationId,
+          userId: user.id,
+          membershipRole: "MEMBER",
+          isActive: false,
+        })),
+      }),
+    ]);
+
     const verificationCode = await generateEmailVerificationCode(
       user.id,
       email,
     );
+
+    console.log(verificationCode);
 
     await inngest.send({
       name: "app/auth.sign-up",

@@ -31,6 +31,7 @@ export type InvitationMinAggregateOutputType = {
   email: string | null
   organizationId: string | null
   invitedByUserId: string | null
+  status: $Enums.InvitationsStatus | null
 }
 
 export type InvitationMaxAggregateOutputType = {
@@ -40,6 +41,7 @@ export type InvitationMaxAggregateOutputType = {
   email: string | null
   organizationId: string | null
   invitedByUserId: string | null
+  status: $Enums.InvitationsStatus | null
 }
 
 export type InvitationCountAggregateOutputType = {
@@ -49,6 +51,7 @@ export type InvitationCountAggregateOutputType = {
   email: number
   organizationId: number
   invitedByUserId: number
+  status: number
   _all: number
 }
 
@@ -60,6 +63,7 @@ export type InvitationMinAggregateInputType = {
   email?: true
   organizationId?: true
   invitedByUserId?: true
+  status?: true
 }
 
 export type InvitationMaxAggregateInputType = {
@@ -69,6 +73,7 @@ export type InvitationMaxAggregateInputType = {
   email?: true
   organizationId?: true
   invitedByUserId?: true
+  status?: true
 }
 
 export type InvitationCountAggregateInputType = {
@@ -78,6 +83,7 @@ export type InvitationCountAggregateInputType = {
   email?: true
   organizationId?: true
   invitedByUserId?: true
+  status?: true
   _all?: true
 }
 
@@ -160,6 +166,7 @@ export type InvitationGroupByOutputType = {
   email: string
   organizationId: string
   invitedByUserId: string | null
+  status: $Enums.InvitationsStatus
   _count: InvitationCountAggregateOutputType | null
   _min: InvitationMinAggregateOutputType | null
   _max: InvitationMaxAggregateOutputType | null
@@ -190,6 +197,7 @@ export type InvitationWhereInput = {
   email?: Prisma.StringFilter<"Invitation"> | string
   organizationId?: Prisma.StringFilter<"Invitation"> | string
   invitedByUserId?: Prisma.StringNullableFilter<"Invitation"> | string | null
+  status?: Prisma.EnumInvitationsStatusFilter<"Invitation"> | $Enums.InvitationsStatus
   organization?: Prisma.XOR<Prisma.OrganizationScalarRelationFilter, Prisma.OrganizationWhereInput>
   invitedByUser?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }
@@ -201,6 +209,7 @@ export type InvitationOrderByWithRelationInput = {
   email?: Prisma.SortOrder
   organizationId?: Prisma.SortOrder
   invitedByUserId?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
   organization?: Prisma.OrganizationOrderByWithRelationInput
   invitedByUser?: Prisma.UserOrderByWithRelationInput
 }
@@ -215,6 +224,7 @@ export type InvitationWhereUniqueInput = Prisma.AtLeast<{
   email?: Prisma.StringFilter<"Invitation"> | string
   organizationId?: Prisma.StringFilter<"Invitation"> | string
   invitedByUserId?: Prisma.StringNullableFilter<"Invitation"> | string | null
+  status?: Prisma.EnumInvitationsStatusFilter<"Invitation"> | $Enums.InvitationsStatus
   organization?: Prisma.XOR<Prisma.OrganizationScalarRelationFilter, Prisma.OrganizationWhereInput>
   invitedByUser?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }, "tokenHash">
@@ -226,6 +236,7 @@ export type InvitationOrderByWithAggregationInput = {
   email?: Prisma.SortOrder
   organizationId?: Prisma.SortOrder
   invitedByUserId?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
   _count?: Prisma.InvitationCountOrderByAggregateInput
   _max?: Prisma.InvitationMaxOrderByAggregateInput
   _min?: Prisma.InvitationMinOrderByAggregateInput
@@ -241,6 +252,7 @@ export type InvitationScalarWhereWithAggregatesInput = {
   email?: Prisma.StringWithAggregatesFilter<"Invitation"> | string
   organizationId?: Prisma.StringWithAggregatesFilter<"Invitation"> | string
   invitedByUserId?: Prisma.StringNullableWithAggregatesFilter<"Invitation"> | string | null
+  status?: Prisma.EnumInvitationsStatusWithAggregatesFilter<"Invitation"> | $Enums.InvitationsStatus
 }
 
 export type InvitationCreateInput = {
@@ -248,6 +260,7 @@ export type InvitationCreateInput = {
   updatedAt?: Date | string
   tokenHash: string
   email: string
+  status?: $Enums.InvitationsStatus
   organization: Prisma.OrganizationCreateNestedOneWithoutInvitationsInput
   invitedByUser?: Prisma.UserCreateNestedOneWithoutInvitatesByUserInput
 }
@@ -259,6 +272,7 @@ export type InvitationUncheckedCreateInput = {
   email: string
   organizationId: string
   invitedByUserId?: string | null
+  status?: $Enums.InvitationsStatus
 }
 
 export type InvitationUpdateInput = {
@@ -266,6 +280,7 @@ export type InvitationUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tokenHash?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumInvitationsStatusFieldUpdateOperationsInput | $Enums.InvitationsStatus
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutInvitationsNestedInput
   invitedByUser?: Prisma.UserUpdateOneWithoutInvitatesByUserNestedInput
 }
@@ -277,6 +292,7 @@ export type InvitationUncheckedUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   invitedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumInvitationsStatusFieldUpdateOperationsInput | $Enums.InvitationsStatus
 }
 
 export type InvitationCreateManyInput = {
@@ -286,6 +302,7 @@ export type InvitationCreateManyInput = {
   email: string
   organizationId: string
   invitedByUserId?: string | null
+  status?: $Enums.InvitationsStatus
 }
 
 export type InvitationUpdateManyMutationInput = {
@@ -293,6 +310,7 @@ export type InvitationUpdateManyMutationInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tokenHash?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumInvitationsStatusFieldUpdateOperationsInput | $Enums.InvitationsStatus
 }
 
 export type InvitationUncheckedUpdateManyInput = {
@@ -302,6 +320,7 @@ export type InvitationUncheckedUpdateManyInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   invitedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumInvitationsStatusFieldUpdateOperationsInput | $Enums.InvitationsStatus
 }
 
 export type InvitationListRelationFilter = {
@@ -321,6 +340,7 @@ export type InvitationCountOrderByAggregateInput = {
   email?: Prisma.SortOrder
   organizationId?: Prisma.SortOrder
   invitedByUserId?: Prisma.SortOrder
+  status?: Prisma.SortOrder
 }
 
 export type InvitationMaxOrderByAggregateInput = {
@@ -330,6 +350,7 @@ export type InvitationMaxOrderByAggregateInput = {
   email?: Prisma.SortOrder
   organizationId?: Prisma.SortOrder
   invitedByUserId?: Prisma.SortOrder
+  status?: Prisma.SortOrder
 }
 
 export type InvitationMinOrderByAggregateInput = {
@@ -339,6 +360,7 @@ export type InvitationMinOrderByAggregateInput = {
   email?: Prisma.SortOrder
   organizationId?: Prisma.SortOrder
   invitedByUserId?: Prisma.SortOrder
+  status?: Prisma.SortOrder
 }
 
 export type InvitationCreateNestedManyWithoutOrganizationInput = {
@@ -381,6 +403,10 @@ export type InvitationUncheckedUpdateManyWithoutOrganizationNestedInput = {
   update?: Prisma.InvitationUpdateWithWhereUniqueWithoutOrganizationInput | Prisma.InvitationUpdateWithWhereUniqueWithoutOrganizationInput[]
   updateMany?: Prisma.InvitationUpdateManyWithWhereWithoutOrganizationInput | Prisma.InvitationUpdateManyWithWhereWithoutOrganizationInput[]
   deleteMany?: Prisma.InvitationScalarWhereInput | Prisma.InvitationScalarWhereInput[]
+}
+
+export type EnumInvitationsStatusFieldUpdateOperationsInput = {
+  set?: $Enums.InvitationsStatus
 }
 
 export type NullableStringFieldUpdateOperationsInput = {
@@ -434,6 +460,7 @@ export type InvitationCreateWithoutOrganizationInput = {
   updatedAt?: Date | string
   tokenHash: string
   email: string
+  status?: $Enums.InvitationsStatus
   invitedByUser?: Prisma.UserCreateNestedOneWithoutInvitatesByUserInput
 }
 
@@ -443,6 +470,7 @@ export type InvitationUncheckedCreateWithoutOrganizationInput = {
   tokenHash: string
   email: string
   invitedByUserId?: string | null
+  status?: $Enums.InvitationsStatus
 }
 
 export type InvitationCreateOrConnectWithoutOrganizationInput = {
@@ -481,6 +509,7 @@ export type InvitationScalarWhereInput = {
   email?: Prisma.StringFilter<"Invitation"> | string
   organizationId?: Prisma.StringFilter<"Invitation"> | string
   invitedByUserId?: Prisma.StringNullableFilter<"Invitation"> | string | null
+  status?: Prisma.EnumInvitationsStatusFilter<"Invitation"> | $Enums.InvitationsStatus
 }
 
 export type InvitationCreateWithoutInvitedByUserInput = {
@@ -488,6 +517,7 @@ export type InvitationCreateWithoutInvitedByUserInput = {
   updatedAt?: Date | string
   tokenHash: string
   email: string
+  status?: $Enums.InvitationsStatus
   organization: Prisma.OrganizationCreateNestedOneWithoutInvitationsInput
 }
 
@@ -497,6 +527,7 @@ export type InvitationUncheckedCreateWithoutInvitedByUserInput = {
   tokenHash: string
   email: string
   organizationId: string
+  status?: $Enums.InvitationsStatus
 }
 
 export type InvitationCreateOrConnectWithoutInvitedByUserInput = {
@@ -531,6 +562,7 @@ export type InvitationCreateManyOrganizationInput = {
   tokenHash: string
   email: string
   invitedByUserId?: string | null
+  status?: $Enums.InvitationsStatus
 }
 
 export type InvitationUpdateWithoutOrganizationInput = {
@@ -538,6 +570,7 @@ export type InvitationUpdateWithoutOrganizationInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tokenHash?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumInvitationsStatusFieldUpdateOperationsInput | $Enums.InvitationsStatus
   invitedByUser?: Prisma.UserUpdateOneWithoutInvitatesByUserNestedInput
 }
 
@@ -547,6 +580,7 @@ export type InvitationUncheckedUpdateWithoutOrganizationInput = {
   tokenHash?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   invitedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumInvitationsStatusFieldUpdateOperationsInput | $Enums.InvitationsStatus
 }
 
 export type InvitationUncheckedUpdateManyWithoutOrganizationInput = {
@@ -555,6 +589,7 @@ export type InvitationUncheckedUpdateManyWithoutOrganizationInput = {
   tokenHash?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   invitedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumInvitationsStatusFieldUpdateOperationsInput | $Enums.InvitationsStatus
 }
 
 export type InvitationCreateManyInvitedByUserInput = {
@@ -563,6 +598,7 @@ export type InvitationCreateManyInvitedByUserInput = {
   tokenHash: string
   email: string
   organizationId: string
+  status?: $Enums.InvitationsStatus
 }
 
 export type InvitationUpdateWithoutInvitedByUserInput = {
@@ -570,6 +606,7 @@ export type InvitationUpdateWithoutInvitedByUserInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tokenHash?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumInvitationsStatusFieldUpdateOperationsInput | $Enums.InvitationsStatus
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutInvitationsNestedInput
 }
 
@@ -579,6 +616,7 @@ export type InvitationUncheckedUpdateWithoutInvitedByUserInput = {
   tokenHash?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   organizationId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumInvitationsStatusFieldUpdateOperationsInput | $Enums.InvitationsStatus
 }
 
 export type InvitationUncheckedUpdateManyWithoutInvitedByUserInput = {
@@ -587,6 +625,7 @@ export type InvitationUncheckedUpdateManyWithoutInvitedByUserInput = {
   tokenHash?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   organizationId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumInvitationsStatusFieldUpdateOperationsInput | $Enums.InvitationsStatus
 }
 
 
@@ -598,6 +637,7 @@ export type InvitationSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   email?: boolean
   organizationId?: boolean
   invitedByUserId?: boolean
+  status?: boolean
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   invitedByUser?: boolean | Prisma.Invitation$invitedByUserArgs<ExtArgs>
 }, ExtArgs["result"]["invitation"]>
@@ -609,6 +649,7 @@ export type InvitationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   email?: boolean
   organizationId?: boolean
   invitedByUserId?: boolean
+  status?: boolean
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   invitedByUser?: boolean | Prisma.Invitation$invitedByUserArgs<ExtArgs>
 }, ExtArgs["result"]["invitation"]>
@@ -620,6 +661,7 @@ export type InvitationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   email?: boolean
   organizationId?: boolean
   invitedByUserId?: boolean
+  status?: boolean
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   invitedByUser?: boolean | Prisma.Invitation$invitedByUserArgs<ExtArgs>
 }, ExtArgs["result"]["invitation"]>
@@ -631,9 +673,10 @@ export type InvitationSelectScalar = {
   email?: boolean
   organizationId?: boolean
   invitedByUserId?: boolean
+  status?: boolean
 }
 
-export type InvitationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"createdAt" | "updatedAt" | "tokenHash" | "email" | "organizationId" | "invitedByUserId", ExtArgs["result"]["invitation"]>
+export type InvitationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"createdAt" | "updatedAt" | "tokenHash" | "email" | "organizationId" | "invitedByUserId" | "status", ExtArgs["result"]["invitation"]>
 export type InvitationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   invitedByUser?: boolean | Prisma.Invitation$invitedByUserArgs<ExtArgs>
@@ -660,6 +703,7 @@ export type $InvitationPayload<ExtArgs extends runtime.Types.Extensions.Internal
     email: string
     organizationId: string
     invitedByUserId: string | null
+    status: $Enums.InvitationsStatus
   }, ExtArgs["result"]["invitation"]>
   composites: {}
 }
@@ -1091,6 +1135,7 @@ export interface InvitationFieldRefs {
   readonly email: Prisma.FieldRef<"Invitation", 'String'>
   readonly organizationId: Prisma.FieldRef<"Invitation", 'String'>
   readonly invitedByUserId: Prisma.FieldRef<"Invitation", 'String'>
+  readonly status: Prisma.FieldRef<"Invitation", 'InvitationsStatus'>
 }
     
 

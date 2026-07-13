@@ -35,6 +35,8 @@ const OrganizationList = async ({ limitedAccess }: OrganizationListProps) => {
     (organization) => organization.membershipByUser.isActive,
   );
 
+  // console.log("FROM OrganizationList", organizations);
+
   return (
     <div>
       <Table>

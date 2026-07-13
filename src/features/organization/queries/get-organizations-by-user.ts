@@ -4,6 +4,8 @@ import { prisma } from "@/lib/prisma";
 const getOrganizationsByUser = async () => {
   const { user } = await getAuth();
 
+  // console.log("from getOrganizationsByUser", user);
+
   if (!user) {
     return [];
   }
@@ -32,6 +34,8 @@ const getOrganizationsByUser = async () => {
       },
     },
   });
+
+  // console.log("from getOrganizationsByUser", organizations);
 
   return organizations.map(({ memberships, ...organizations }) => ({
     ...organizations,

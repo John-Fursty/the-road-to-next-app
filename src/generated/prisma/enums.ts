@@ -9,6 +9,14 @@
 * 🟢 You can import this file directly.
 */
 
+export const InvitationsStatus = {
+  PENDING: 'PENDING',
+  ACCEPTED_WITHOUT_ACCOUNT: 'ACCEPTED_WITHOUT_ACCOUNT'
+} as const
+
+export type InvitationsStatus = (typeof InvitationsStatus)[keyof typeof InvitationsStatus]
+
+
 export const MembershipRole = {
   MEMBER: 'MEMBER',
   ADMIN: 'ADMIN'

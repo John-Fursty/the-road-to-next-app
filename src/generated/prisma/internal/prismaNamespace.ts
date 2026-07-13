@@ -1133,7 +1133,8 @@ export const InvitationScalarFieldEnum = {
   tokenHash: 'tokenHash',
   email: 'email',
   organizationId: 'organizationId',
-  invitedByUserId: 'invitedByUserId'
+  invitedByUserId: 'invitedByUserId',
+  status: 'status'
 } as const
 
 export type InvitationScalarFieldEnum = (typeof InvitationScalarFieldEnum)[keyof typeof InvitationScalarFieldEnum]
@@ -1273,6 +1274,20 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
+ * Reference to a field of type 'InvitationsStatus'
+ */
+export type EnumInvitationsStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InvitationsStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'InvitationsStatus[]'
+ */
+export type ListEnumInvitationsStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InvitationsStatus[]'>
     
 
 
