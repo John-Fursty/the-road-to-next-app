@@ -14,7 +14,7 @@ const userPlaced = eventType("app/invitation.created", {
 });
 
 export const invitationCreatedEvent = inngest.createFunction(
-  { id: "invitation-created", triggers: { event: "userPlaced" } },
+  { id: "invitation-created", triggers: { event: userPlaced } },
   async ({ event }) => {
     const { userId, organizationId, email, emailInvitationLink } = event.data;
 

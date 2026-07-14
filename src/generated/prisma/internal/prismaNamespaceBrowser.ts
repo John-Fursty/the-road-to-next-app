@@ -59,7 +59,8 @@ export const ModelName = {
   PasswordResetToken: 'PasswordResetToken',
   Session: 'Session',
   Comment: 'Comment',
-  Ticket: 'Ticket'
+  Ticket: 'Ticket',
+  Attachment: 'Attachment'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -178,6 +179,15 @@ export const TicketScalarFieldEnum = {
 } as const
 
 export type TicketScalarFieldEnum = (typeof TicketScalarFieldEnum)[keyof typeof TicketScalarFieldEnum]
+
+
+export const AttachmentScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  ticketId: 'ticketId'
+} as const
+
+export type AttachmentScalarFieldEnum = (typeof AttachmentScalarFieldEnum)[keyof typeof AttachmentScalarFieldEnum]
 
 
 export const SortOrder = {

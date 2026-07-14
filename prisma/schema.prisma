@@ -28,6 +28,7 @@ model Invitation {
   invitedByUserId String?
   status InvitationsStatus @default(PENDING)
 
+  @@id(name: "invitationId", [organizationId, email])
   @@index([organizationId])
   @@index([invitedByUserId])
 }
@@ -131,10 +132,21 @@ model Ticket {
   organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   organizationId String
   comments Comment[]
+  attachments Attachment[]
 
   @@index([userId])
   @@index([organizationId])
 }
+
+model Attachment {
+  id String @id @default(cuid())
+  name String
+  ticket Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  ticketId String
+
+  @@index([ticketId])
+}
+
 
 enum TicketStatus {
   OPEN

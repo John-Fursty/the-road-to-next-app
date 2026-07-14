@@ -62,3 +62,8 @@ export type Comment = Prisma.CommentModel
  * 
  */
 export type Ticket = Prisma.TicketModel
+/**
+ * Model Attachment
+ * 
+ */
+export type Attachment = Prisma.AttachmentModel
