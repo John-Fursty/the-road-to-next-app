@@ -16,6 +16,9 @@ import { sizeInMb } from "../utils/size";
 import { s3 } from "@/lib/aws";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { generateS3Key } from "../utils/generate-s3-key";
+import { AttachmentEntity } from "@/generated/prisma/client";
+import { isComment, isTicket } from "../types";
+import { getOrganizationByAttachment } from "../utils/attachment-helper";
 
 const createAttachmentsSchema = z.object({
   files: z
@@ -35,25 +38,50 @@ const createAttachmentsSchema = z.object({
     .refine((files) => files.length !== 0, "File is required"),
 });
 
+type CreateAttachmentArgs = {
+  entityId: string;
+  entity: AttachmentEntity;
+};
+
 export const createAttachments = async (
-  ticketId: string,
+  { entityId, entity }: CreateAttachmentArgs,
   _actionState: ActionState,
   formData: FormData,
 ) => {
   const { user } = await getAuthOrRedirect();
 
-  const ticket = await prisma.ticket.findUnique({
-    where: {
-      id: ticketId,
-    },
-  });
+  let subject;
 
-  if (!ticket) {
-    return toActionState("ERROR", "Ticket not found");
+  switch (entity) {
+    case "TICKET": {
+      subject = await prisma.ticket.findUnique({
+        where: {
+          id: entityId,
+        },
+      });
+      break;
+    }
+    case "COMMENT": {
+      subject = await prisma.comment.findUnique({
+        where: {
+          id: entityId,
+        },
+        include: {
+          ticket: true,
+        },
+      });
+      break;
+    }
+    default:
+      return toActionState("ERROR", "Subject not found");
   }
 
-  if (!isOwner(user, ticket)) {
-    return toActionState("ERROR", "Not the owner of this ticket");
+  if (!subject) {
+    return toActionState("ERROR", "Subject not found");
+  }
+
+  if (!isOwner(user, subject)) {
+    return toActionState("ERROR", "Not the owner of this subject");
   }
 
   try {
@@ -67,16 +95,21 @@ export const createAttachments = async (
       const attachment = await prisma.attachment.create({
         data: {
           name: file.name,
-          ticketId,
+          ...(entity === "TICKET" ? { ticketId: entityId } : {}),
+          ...(entity === "COMMENT" ? { commentId: entityId } : {}),
+          entity,
         },
       });
+
+      let organizationId = getOrganizationByAttachment(entity, subject);
 
       await s3.send(
         new PutObjectCommand({
           Bucket: process.env.S3_BUCKET_NAME,
           Key: generateS3Key({
-            organizationId: ticket.organizationId,
-            ticketId,
+            organizationId,
+            entityId,
+            entity,
             fileName: file.name,
             attachmentId: attachment.id,
           }),
@@ -89,7 +122,19 @@ export const createAttachments = async (
     return fromErrorToAction(error);
   }
 
-  revalidatePath(ticketPath(ticketId));
+  switch (entity) {
+    case "TICKET":
+      if (isTicket(subject)) {
+        revalidatePath(ticketPath(subject.id));
+      }
+      break;
+    case "COMMENT": {
+      if (isComment(subject)) {
+        revalidatePath(ticketPath(subject.ticket.id));
+      }
+      break;
+    }
+  }
 
   return toActionState("SUCCESS", "Attachment(s) uploaded");
 };

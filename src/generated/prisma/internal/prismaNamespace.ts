@@ -1297,7 +1297,9 @@ export type TicketScalarFieldEnum = (typeof TicketScalarFieldEnum)[keyof typeof 
 export const AttachmentScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  ticketId: 'ticketId'
+  entity: 'entity',
+  ticketId: 'ticketId',
+  commentId: 'commentId'
 } as const
 
 export type AttachmentScalarFieldEnum = (typeof AttachmentScalarFieldEnum)[keyof typeof AttachmentScalarFieldEnum]
@@ -1421,6 +1423,20 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'AttachmentEntity'
+ */
+export type EnumAttachmentEntityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttachmentEntity'>
+    
+
+
+/**
+ * Reference to a field of type 'AttachmentEntity[]'
+ */
+export type ListEnumAttachmentEntityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttachmentEntity[]'>
     
 
 

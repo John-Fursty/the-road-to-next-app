@@ -25,6 +25,14 @@ export const MembershipRole = {
 export type MembershipRole = (typeof MembershipRole)[keyof typeof MembershipRole]
 
 
+export const AttachmentEntity = {
+  TICKET: 'TICKET',
+  COMMENT: 'COMMENT'
+} as const
+
+export type AttachmentEntity = (typeof AttachmentEntity)[keyof typeof AttachmentEntity]
+
+
 export const TicketStatus = {
   OPEN: 'OPEN',
   IN_PROGRESS: 'IN_PROGRESS',
