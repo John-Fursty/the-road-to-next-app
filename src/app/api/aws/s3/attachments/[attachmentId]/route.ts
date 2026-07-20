@@ -5,6 +5,7 @@ import { NextRequest } from "next/server";
 import { s3 } from "@/lib/aws";
 import { GetObjectCommand } from "@aws-sdk/client-s3";
 import { generateS3Key } from "@/features/attachments/utils/generate-s3-key";
+import { getOrganizationByAttachment } from "@/features/attachments/utils/attachment-helper";
 
 export async function GET(
   request: NextRequest,
@@ -20,16 +21,33 @@ export async function GET(
     },
     include: {
       ticket: true,
+      comment: {
+        include: {
+          ticket: true,
+        },
+      },
     },
   });
+
+  const subject = attachment.ticket ?? attachment.comment;
+
+  if (!subject) {
+    throw new Error("Subject not found");
+  }
+
+  const organizationId = getOrganizationByAttachment(
+    attachment.entity,
+    subject,
+  );
 
   const presignedUrl = await getSignedUrl(
     s3,
     new GetObjectCommand({
       Bucket: process.env.S3_BUCKET_NAME,
       Key: generateS3Key({
-        organizationId: attachment.ticket.organizationId,
-        ticketId: attachment.ticket.id,
+        organizationId,
+        entityId: subject.id,
+        entity: attachment.entity,
         fileName: attachment.name,
         attachmentId: attachment.id,
       }),

@@ -8,9 +8,13 @@ import { useRouter } from "next/navigation";
 
 type AttachmentDeleteButtonProps = {
   id: string;
+  onDeleteAttachment?: (id: string) => void;
 };
 
-const AttachmentDeleteButton = ({ id }: AttachmentDeleteButtonProps) => {
+const AttachmentDeleteButton = ({
+  id,
+  onDeleteAttachment,
+}: AttachmentDeleteButtonProps) => {
   const router = useRouter();
 
   const [deleteButton, deleteDialog] = useConfirmDialog({
@@ -25,6 +29,7 @@ const AttachmentDeleteButton = ({ id }: AttachmentDeleteButtonProps) => {
       </Button>
     ),
     onSuccess() {
+      onDeleteAttachment?.(id);
       router.refresh();
     },
   });

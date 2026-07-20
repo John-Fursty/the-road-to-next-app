@@ -13,11 +13,15 @@ import { AttachmentEntity } from "@/generated/prisma/enums";
 type AttachmentCreateFormProps = {
   entityId: string;
   entity: AttachmentEntity;
+  buttons?: React.ReactNode;
+  onSuccess?: () => void;
 };
 
 const AttachmentCreateForm = ({
   entityId,
   entity,
+  buttons,
+  onSuccess,
 }: AttachmentCreateFormProps) => {
   const [actionState, action] = useActionState(
     createAttachments.bind(null, { entityId, entity }),
@@ -25,7 +29,7 @@ const AttachmentCreateForm = ({
   );
 
   return (
-    <Form action={action} actionState={actionState}>
+    <Form action={action} actionState={actionState} onSuccess={onSuccess}>
       <Input
         type="file"
         name="files"
@@ -35,7 +39,7 @@ const AttachmentCreateForm = ({
       ></Input>
       <FieldError actionState={actionState} name="files" />
 
-      <SubmitButton label="Upload"></SubmitButton>
+      {buttons || <SubmitButton label="Upload" />}
     </Form>
   );
 };

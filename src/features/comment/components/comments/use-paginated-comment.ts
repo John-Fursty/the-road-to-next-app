@@ -38,5 +38,7 @@ export const usePaginatedComment = (
     isFetchingNextPage,
     onCreateComment: () => queryCient.invalidateQueries({ queryKey }),
     onDeleteComment: () => queryCient.invalidateQueries({ queryKey }),
+    onCreateAttachment: () => queryCient.invalidateQueries({ queryKey }),
+    onDeleteAttachment: () => queryCient.invalidateQueries({ queryKey }),
   };
 };
