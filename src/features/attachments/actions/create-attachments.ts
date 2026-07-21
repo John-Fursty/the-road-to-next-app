@@ -7,35 +7,16 @@ import {
 } from "@/components/form/utils/to-action-state";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
 import { isOwner } from "@/features/auth/utils/is-owner";
-import { prisma } from "@/lib/prisma";
 import { ticketPath } from "@/paths";
 import { revalidatePath } from "next/cache";
 import z from "zod";
-import { ACCEPTED, MAX_SIZE } from "../constants";
-import { sizeInMb } from "../utils/size";
-import { s3 } from "@/lib/aws";
-import { PutObjectCommand } from "@aws-sdk/client-s3";
-import { generateS3Key } from "../utils/generate-s3-key";
 import { AttachmentEntity } from "@/generated/prisma/client";
 import { isComment, isTicket } from "../types";
-import { getOrganizationByAttachment } from "../utils/attachment-helper";
+import * as attachmentService from "../service";
+import { filesSchema } from "../schema/files";
 
 const createAttachmentsSchema = z.object({
-  files: z
-    .custom<FileList>()
-    .transform((files) => Array.from(files))
-    .transform((files) => files.filter((file) => file.size > 0))
-    .refine(
-      (files) => files.every((file) => sizeInMb(file.size) <= MAX_SIZE),
-      `The maximum file size is ${MAX_SIZE}MB`,
-    )
-    .refine((files) =>
-      files.every(
-        (file) => ACCEPTED.includes(file.type),
-        "File type is not supported",
-      ),
-    )
-    .refine((files) => files.length !== 0, "File is required"),
+  files: filesSchema.refine((files) => files.length !== 0, "File is required"),
 });
 
 type CreateAttachmentArgs = {
@@ -50,31 +31,10 @@ export const createAttachments = async (
 ) => {
   const { user } = await getAuthOrRedirect();
 
-  let subject;
-
-  switch (entity) {
-    case "TICKET": {
-      subject = await prisma.ticket.findUnique({
-        where: {
-          id: entityId,
-        },
-      });
-      break;
-    }
-    case "COMMENT": {
-      subject = await prisma.comment.findUnique({
-        where: {
-          id: entityId,
-        },
-        include: {
-          ticket: true,
-        },
-      });
-      break;
-    }
-    default:
-      return toActionState("ERROR", "Subject not found");
-  }
+  const subject = await attachmentService.getAttachmentSubject(
+    entityId,
+    entity,
+  );
 
   if (!subject) {
     return toActionState("ERROR", "Subject not found");
@@ -89,35 +49,12 @@ export const createAttachments = async (
       files: formData.getAll("files"),
     });
 
-    for (const file of files) {
-      const buffer = await Buffer.from(await file.arrayBuffer());
-
-      const attachment = await prisma.attachment.create({
-        data: {
-          name: file.name,
-          ...(entity === "TICKET" ? { ticketId: entityId } : {}),
-          ...(entity === "COMMENT" ? { commentId: entityId } : {}),
-          entity,
-        },
-      });
-
-      let organizationId = getOrganizationByAttachment(entity, subject);
-
-      await s3.send(
-        new PutObjectCommand({
-          Bucket: process.env.S3_BUCKET_NAME,
-          Key: generateS3Key({
-            organizationId,
-            entityId,
-            entity,
-            fileName: file.name,
-            attachmentId: attachment.id,
-          }),
-          Body: buffer,
-          ContentType: file.type,
-        }),
-      );
-    }
+    await attachmentService.createAttachments({
+      subject,
+      entity,
+      entityId,
+      files,
+    });
   } catch (error) {
     return fromErrorToAction(error);
   }

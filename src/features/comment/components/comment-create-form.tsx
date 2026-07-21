@@ -11,6 +11,8 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { createComment } from "../actions/create-comment";
 import { CommentWithMetadata } from "../types";
+import { Input } from "@/components/ui/input";
+import { ACCEPTED } from "@/features/attachments/constants";
 
 type CommentCreateFormProps = {
   ticketId: string;
@@ -36,6 +38,15 @@ const CommentCreateForm = ({
     <Form action={action} actionState={actionState} onSuccess={handleSuccess}>
       <Textarea name="content" placeholder="What's on your mind"></Textarea>
       <FieldError name="content" actionState={actionState} />
+
+      <Input
+        name="files"
+        id="files"
+        type="file"
+        multiple
+        accept={ACCEPTED.join(",")}
+      />
+      <FieldError actionState={actionState} name="files"></FieldError>
 
       <SubmitButton label="Comment" />
     </Form>

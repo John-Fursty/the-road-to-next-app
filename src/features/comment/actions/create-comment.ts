@@ -8,11 +8,14 @@ import {
   toActionState,
 } from "@/components/form/utils/to-action-state";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
-import { prisma } from "@/lib/prisma";
 import { ticketPath } from "@/paths";
+import { filesSchema } from "@/features/attachments/schema/files";
+import * as attachmentService from "@/features/attachments/service";
+import * as commentData from "../data";
 
 const createCommentSchema = z.object({
   content: z.string().min(1).max(1024),
+  files: filesSchema,
 });
 
 export const createComment = async (
@@ -24,17 +27,26 @@ export const createComment = async (
   let comment;
 
   try {
-    const data = createCommentSchema.parse(Object.fromEntries(formData));
+    const { content, files } = createCommentSchema.parse({
+      content: formData.get("content"),
+      files: formData.getAll("files"),
+    });
 
-    comment = await prisma.comment.create({
-      data: {
-        ...data,
-        userId: user.id,
-        ticketId,
+    comment = await commentData.createComment({
+      userId: user.id,
+      ticketId,
+      content,
+      options: {
+        includeUser: true,
+        includeTicket: true,
       },
-      include: {
-        user: true,
-      },
+    });
+
+    await attachmentService.createAttachments({
+      subject: comment,
+      entity: "COMMENT",
+      entityId: comment.id,
+      files,
     });
   } catch (error) {
     return fromErrorToAction(error);
