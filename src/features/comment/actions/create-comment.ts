@@ -12,6 +12,9 @@ import { ticketPath } from "@/paths";
 import { filesSchema } from "@/features/attachments/schema/files";
 import * as attachmentService from "@/features/attachments/service";
 import * as commentData from "../data";
+import * as attachmentSubjectDTO from "@/features/attachments/dto/attachment-subject-dto";
+import * as ticketData from "@/features/ticket/data";
+import { findIdsFromText } from "@/utils/find-ids-from-text";
 
 const createCommentSchema = z.object({
   content: z.string().min(1).max(1024),
@@ -42,12 +45,23 @@ export const createComment = async (
       },
     });
 
+    const subject = attachmentSubjectDTO.fromComment(comment);
+
+    if (!subject) {
+      return toActionState("ERROR", "Comment not created");
+    }
+
     await attachmentService.createAttachments({
-      subject: comment,
+      subject,
       entity: "COMMENT",
       entityId: comment.id,
       files,
     });
+
+    await ticketData.connectReferencedTicket(
+      ticketId,
+      findIdsFromText("tickets", content),
+    );
   } catch (error) {
     return fromErrorToAction(error);
   }

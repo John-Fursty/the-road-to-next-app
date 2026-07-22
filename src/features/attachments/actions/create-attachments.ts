@@ -11,7 +11,6 @@ import { ticketPath } from "@/paths";
 import { revalidatePath } from "next/cache";
 import z from "zod";
 import { AttachmentEntity } from "@/generated/prisma/client";
-import { isComment, isTicket } from "../types";
 import * as attachmentService from "../service";
 import { filesSchema } from "../schema/files";
 
@@ -59,19 +58,7 @@ export const createAttachments = async (
     return fromErrorToAction(error);
   }
 
-  switch (entity) {
-    case "TICKET":
-      if (isTicket(subject)) {
-        revalidatePath(ticketPath(subject.id));
-      }
-      break;
-    case "COMMENT": {
-      if (isComment(subject)) {
-        revalidatePath(ticketPath(subject.ticket.id));
-      }
-      break;
-    }
-  }
+  revalidatePath(ticketPath(subject.ticketId));
 
   return toActionState("SUCCESS", "Attachment(s) uploaded");
 };

@@ -1,6 +1,5 @@
 import { AttachmentEntity } from "@/generated/prisma/enums";
 import { prisma } from "@/lib/prisma";
-import { Attachment } from "resend";
 
 type CreateAttachmentArgs = {
   name: string;

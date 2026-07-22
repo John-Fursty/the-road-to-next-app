@@ -128,12 +128,14 @@ model Ticket {
   status TicketStatus @default(OPEN)
   deadline String
   bounty Int 
-  userId String 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  organizationId String
-  comments Comment[]
-  attachments Attachment[]
+  userId             String 
+  user               User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organization       Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId     String
+  comments           Comment[]
+  attachments        Attachment[]
+  referencedTickets  Ticket[] @relation("TicketReferences")
+  referencingTickets Ticket[] @relation("TicketReferences")
 
   @@index([userId])
   @@index([organizationId])

@@ -7,6 +7,7 @@ import { getTicket } from "@/features/ticket/queries/get-ticket";
 import { homePath } from "@/paths";
 import { Comments } from "@/features/comment/components/comments/comments";
 import { Attachments } from "@/features/attachments/components/attachments";
+import { ReferencedTickets } from "@/features/ticket/components/referenced-ticket";
 
 type TicketPageProps = {
   params: Promise<{ ticketId: string }>;
@@ -49,6 +50,7 @@ const TicketPage = async ({ params }: TicketPageProps) => {
               isOwner={ticket.isOwner}
             />
           }
+          referencedTickets={<ReferencedTickets ticketId={ticket.id} />}
           comments={
             <Comments
               ticketId={ticket.id}

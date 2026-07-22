@@ -1,6 +1,6 @@
-import { toActionState } from "@/components/form/utils/to-action-state";
 import { AttachmentEntity } from "@/generated/prisma/enums";
 import { prisma } from "@/lib/prisma";
+import * as attachmentSujectDTO from "../dto/attachment-subject-dto";
 
 export const getAttachmentSubject = async (
   entityId: string,
@@ -8,14 +8,16 @@ export const getAttachmentSubject = async (
 ) => {
   switch (entity) {
     case "TICKET": {
-      return await prisma.ticket.findUnique({
+      const ticket = await prisma.ticket.findUnique({
         where: {
           id: entityId,
         },
       });
+
+      return attachmentSujectDTO.fromTicket(ticket);
     }
     case "COMMENT": {
-      return await prisma.comment.findUnique({
+      const comment = await prisma.comment.findUnique({
         where: {
           id: entityId,
         },
@@ -23,6 +25,8 @@ export const getAttachmentSubject = async (
           ticket: true,
         },
       });
+
+      return attachmentSujectDTO.fromComment(comment);
     }
     default:
       return null;

@@ -1,13 +1,13 @@
 import { s3 } from "@/lib/aws";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
-import { getOrganizationByAttachment } from "../utils/attachment-helper";
 import { generateS3Key } from "../utils/generate-s3-key";
 import { AttachmentSubject } from "../types";
 import { AttachmentEntity } from "@/generated/prisma/enums";
 import * as attachmentData from "../data";
+import * as attachmentSujectDTO from "../dto/attachment-subject-dto";
 
 type createAttachmentsArgs = {
-  subject: AttachmentSubject;
+  subject: attachmentSujectDTO.Type;
   entity: AttachmentEntity;
   entityId: string;
   files: File[];
@@ -33,13 +33,11 @@ export const createAttachments = async ({
 
       attachments.push(attachment);
 
-      let organizationId = getOrganizationByAttachment(entity, subject);
-
       await s3.send(
         new PutObjectCommand({
           Bucket: process.env.S3_BUCKET_NAME,
           Key: generateS3Key({
-            organizationId,
+            organizationId: subject.organizationId,
             entityId,
             entity,
             fileName: file.name,
@@ -56,10 +54,3 @@ export const createAttachments = async ({
 
   return attachments;
 };
-function attachmentDatacreateAttachment(arg0: {
-  name: string;
-  entity: AttachmentEntity;
-  entityId: string;
-}) {
-  throw new Error("Function not implemented.");
-}
