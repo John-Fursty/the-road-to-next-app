@@ -3,7 +3,10 @@ import { hash } from "@node-rs/argon2";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "@/generated/prisma/client";
 const adapter = new PrismaPg({ connectionString: process.env.DIRECT_URL });
-const prisma = new PrismaClient({ adapter });
+const prisma = new PrismaClient({
+  adapter,
+  omit: { user: { passwordHash: true } },
+});
 
 const users = [
   {
