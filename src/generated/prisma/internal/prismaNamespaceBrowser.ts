@@ -52,6 +52,7 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Organization: 'Organization',
+  StripeCustomer: 'StripeCustomer',
   Credential: 'Credential',
   Invitation: 'Invitation',
   Membership: 'Membership',
@@ -84,10 +85,19 @@ export const OrganizationScalarFieldEnum = {
   id: 'id',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  name: 'name'
+  name: 'name',
+  stripeCustomerId: 'stripeCustomerId'
 } as const
 
 export type OrganizationScalarFieldEnum = (typeof OrganizationScalarFieldEnum)[keyof typeof OrganizationScalarFieldEnum]
+
+
+export const StripeCustomerScalarFieldEnum = {
+  organizationId: 'organizationId',
+  customerId: 'customerId'
+} as const
+
+export type StripeCustomerScalarFieldEnum = (typeof StripeCustomerScalarFieldEnum)[keyof typeof StripeCustomerScalarFieldEnum]
 
 
 export const CredentialScalarFieldEnum = {

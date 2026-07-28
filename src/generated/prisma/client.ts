@@ -47,6 +47,11 @@ export { Prisma }
  */
 export type Organization = Prisma.OrganizationModel
 /**
+ * Model StripeCustomer
+ * 
+ */
+export type StripeCustomer = Prisma.StripeCustomerModel
+/**
  * Model Credential
  * 
  */

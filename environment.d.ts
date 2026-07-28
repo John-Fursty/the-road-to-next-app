@@ -7,6 +7,7 @@ declare global {
       S3_BUCKET_NAME: string;
       S3_BUCKET_REGION: string;
       S3_ENDPOINT: string;
+      STRIPE_SECRET_KEY: string;
     }
   }
 }

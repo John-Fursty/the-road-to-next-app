@@ -415,10 +415,6 @@ export type EnumInvitationsStatusFieldUpdateOperationsInput = {
   set?: $Enums.InvitationsStatus
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
-}
-
 export type InvitationCreateNestedManyWithoutInvitedByUserInput = {
   create?: Prisma.XOR<Prisma.InvitationCreateWithoutInvitedByUserInput, Prisma.InvitationUncheckedCreateWithoutInvitedByUserInput> | Prisma.InvitationCreateWithoutInvitedByUserInput[] | Prisma.InvitationUncheckedCreateWithoutInvitedByUserInput[]
   connectOrCreate?: Prisma.InvitationCreateOrConnectWithoutInvitedByUserInput | Prisma.InvitationCreateOrConnectWithoutInvitedByUserInput[]
