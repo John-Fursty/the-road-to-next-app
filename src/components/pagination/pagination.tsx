@@ -1,12 +1,14 @@
 import { PaginatedData } from "@/types/paginations";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./ui/select";
+} from "../ui/select";
+import { useTransition } from "react";
+import { PAGE_SIZES } from "./constants";
 
 type PageAndSize = {
   page: number;
@@ -30,12 +32,18 @@ const Pagination = ({
 
   const label = `${startOffset} - ${actualEndOffset} of ${count}`;
 
+  const [isPending, startTransition] = useTransition();
+
   const handleNextPage = () => {
-    onPagination({ ...pagination, page: pagination.page + 1 });
+    startTransition(() => {
+      onPagination({ ...pagination, page: pagination.page + 1 });
+    });
   };
 
   const handlePreviousPage = () => {
-    onPagination({ ...pagination, page: pagination.page - 1 });
+    startTransition(() => {
+      onPagination({ ...pagination, page: pagination.page - 1 });
+    });
   };
 
   const handleChangeSize = (size: string) => {
@@ -46,7 +54,7 @@ const Pagination = ({
     <Button
       variant="outline"
       size="sm"
-      disabled={pagination.page < 1}
+      disabled={pagination.page < 1 || isPending}
       onClick={handlePreviousPage}
     >
       Previous
@@ -57,7 +65,7 @@ const Pagination = ({
     <Button
       variant="outline"
       size="sm"
-      disabled={!hasNextPage}
+      disabled={!hasNextPage || isPending}
       onClick={handleNextPage}
     >
       Next
@@ -73,12 +81,11 @@ const Pagination = ({
         <SelectValue />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="3">3</SelectItem>
-        <SelectItem value="5">5</SelectItem>
-        <SelectItem value="10">10</SelectItem>
-        <SelectItem value="25">25</SelectItem>
-        <SelectItem value="50">50</SelectItem>
-        <SelectItem value="100">100</SelectItem>
+        {PAGE_SIZES.map((size) => (
+          <SelectItem key={size} value={size.toString()}>
+            {size}
+          </SelectItem>
+        ))}
       </SelectContent>
     </Select>
   );

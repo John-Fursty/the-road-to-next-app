@@ -7,7 +7,7 @@ import {
 } from "@/components/form/utils/to-action-state";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
 import { prisma } from "@/lib/prisma";
-import { ticketsPath } from "@/paths";
+import { membershipsPath, organizationCreatePath, ticketsPath } from "@/paths";
 import { redirect } from "next/navigation";
 import z from "zod";
 
@@ -24,13 +24,15 @@ export const createOrganization = async (
     checkActiveOrganization: false,
   });
 
+  let organization = { id: "Prisma" };
+
   try {
     const data = createOrganizationSchema.parse({
       name: formData.get("name"),
     });
 
     await prisma.$transaction(async (tx) => {
-      const organization = await tx.organization.create({
+      organization = await tx.organization.create({
         data: {
           ...data,
           memberships: {
@@ -59,6 +61,9 @@ export const createOrganization = async (
     return fromErrorToAction(error);
   }
 
-  await setCookieByKey("toast", "Organization created");
+  await setCookieByKey(
+    "toast",
+    `<a href=${membershipsPath(organization?.id)}>Organization</a> created`,
+  );
   redirect(ticketsPath());
 };

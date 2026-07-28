@@ -26,6 +26,7 @@ export type AggregateEmailVerificationToken = {
 
 export type EmailVerificationTokenMinAggregateOutputType = {
   id: string | null
+  createdAt: Date | null
   code: string | null
   email: string | null
   expiresAt: Date | null
@@ -34,6 +35,7 @@ export type EmailVerificationTokenMinAggregateOutputType = {
 
 export type EmailVerificationTokenMaxAggregateOutputType = {
   id: string | null
+  createdAt: Date | null
   code: string | null
   email: string | null
   expiresAt: Date | null
@@ -42,6 +44,7 @@ export type EmailVerificationTokenMaxAggregateOutputType = {
 
 export type EmailVerificationTokenCountAggregateOutputType = {
   id: number
+  createdAt: number
   code: number
   email: number
   expiresAt: number
@@ -52,6 +55,7 @@ export type EmailVerificationTokenCountAggregateOutputType = {
 
 export type EmailVerificationTokenMinAggregateInputType = {
   id?: true
+  createdAt?: true
   code?: true
   email?: true
   expiresAt?: true
@@ -60,6 +64,7 @@ export type EmailVerificationTokenMinAggregateInputType = {
 
 export type EmailVerificationTokenMaxAggregateInputType = {
   id?: true
+  createdAt?: true
   code?: true
   email?: true
   expiresAt?: true
@@ -68,6 +73,7 @@ export type EmailVerificationTokenMaxAggregateInputType = {
 
 export type EmailVerificationTokenCountAggregateInputType = {
   id?: true
+  createdAt?: true
   code?: true
   email?: true
   expiresAt?: true
@@ -149,6 +155,7 @@ export type EmailVerificationTokenGroupByArgs<ExtArgs extends runtime.Types.Exte
 
 export type EmailVerificationTokenGroupByOutputType = {
   id: string
+  createdAt: Date
   code: string
   email: string
   expiresAt: Date
@@ -178,6 +185,7 @@ export type EmailVerificationTokenWhereInput = {
   OR?: Prisma.EmailVerificationTokenWhereInput[]
   NOT?: Prisma.EmailVerificationTokenWhereInput | Prisma.EmailVerificationTokenWhereInput[]
   id?: Prisma.StringFilter<"EmailVerificationToken"> | string
+  createdAt?: Prisma.DateTimeFilter<"EmailVerificationToken"> | Date | string
   code?: Prisma.StringFilter<"EmailVerificationToken"> | string
   email?: Prisma.StringFilter<"EmailVerificationToken"> | string
   expiresAt?: Prisma.DateTimeFilter<"EmailVerificationToken"> | Date | string
@@ -187,6 +195,7 @@ export type EmailVerificationTokenWhereInput = {
 
 export type EmailVerificationTokenOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
   code?: Prisma.SortOrder
   email?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
@@ -199,6 +208,7 @@ export type EmailVerificationTokenWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.EmailVerificationTokenWhereInput | Prisma.EmailVerificationTokenWhereInput[]
   OR?: Prisma.EmailVerificationTokenWhereInput[]
   NOT?: Prisma.EmailVerificationTokenWhereInput | Prisma.EmailVerificationTokenWhereInput[]
+  createdAt?: Prisma.DateTimeFilter<"EmailVerificationToken"> | Date | string
   code?: Prisma.StringFilter<"EmailVerificationToken"> | string
   email?: Prisma.StringFilter<"EmailVerificationToken"> | string
   expiresAt?: Prisma.DateTimeFilter<"EmailVerificationToken"> | Date | string
@@ -208,6 +218,7 @@ export type EmailVerificationTokenWhereUniqueInput = Prisma.AtLeast<{
 
 export type EmailVerificationTokenOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
   code?: Prisma.SortOrder
   email?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
@@ -222,6 +233,7 @@ export type EmailVerificationTokenScalarWhereWithAggregatesInput = {
   OR?: Prisma.EmailVerificationTokenScalarWhereWithAggregatesInput[]
   NOT?: Prisma.EmailVerificationTokenScalarWhereWithAggregatesInput | Prisma.EmailVerificationTokenScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"EmailVerificationToken"> | string
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"EmailVerificationToken"> | Date | string
   code?: Prisma.StringWithAggregatesFilter<"EmailVerificationToken"> | string
   email?: Prisma.StringWithAggregatesFilter<"EmailVerificationToken"> | string
   expiresAt?: Prisma.DateTimeWithAggregatesFilter<"EmailVerificationToken"> | Date | string
@@ -230,6 +242,7 @@ export type EmailVerificationTokenScalarWhereWithAggregatesInput = {
 
 export type EmailVerificationTokenCreateInput = {
   id?: string
+  createdAt?: Date | string
   code: string
   email: string
   expiresAt: Date | string
@@ -238,6 +251,7 @@ export type EmailVerificationTokenCreateInput = {
 
 export type EmailVerificationTokenUncheckedCreateInput = {
   id?: string
+  createdAt?: Date | string
   code: string
   email: string
   expiresAt: Date | string
@@ -246,6 +260,7 @@ export type EmailVerificationTokenUncheckedCreateInput = {
 
 export type EmailVerificationTokenUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -254,6 +269,7 @@ export type EmailVerificationTokenUpdateInput = {
 
 export type EmailVerificationTokenUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -262,6 +278,7 @@ export type EmailVerificationTokenUncheckedUpdateInput = {
 
 export type EmailVerificationTokenCreateManyInput = {
   id?: string
+  createdAt?: Date | string
   code: string
   email: string
   expiresAt: Date | string
@@ -270,6 +287,7 @@ export type EmailVerificationTokenCreateManyInput = {
 
 export type EmailVerificationTokenUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -277,6 +295,7 @@ export type EmailVerificationTokenUpdateManyMutationInput = {
 
 export type EmailVerificationTokenUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -295,6 +314,7 @@ export type EmailVerificationTokenOrderByRelationAggregateInput = {
 
 export type EmailVerificationTokenCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
   code?: Prisma.SortOrder
   email?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
@@ -303,6 +323,7 @@ export type EmailVerificationTokenCountOrderByAggregateInput = {
 
 export type EmailVerificationTokenMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
   code?: Prisma.SortOrder
   email?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
@@ -311,6 +332,7 @@ export type EmailVerificationTokenMaxOrderByAggregateInput = {
 
 export type EmailVerificationTokenMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
   code?: Prisma.SortOrder
   email?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
@@ -361,6 +383,7 @@ export type EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput = {
 
 export type EmailVerificationTokenCreateWithoutUserInput = {
   id?: string
+  createdAt?: Date | string
   code: string
   email: string
   expiresAt: Date | string
@@ -368,6 +391,7 @@ export type EmailVerificationTokenCreateWithoutUserInput = {
 
 export type EmailVerificationTokenUncheckedCreateWithoutUserInput = {
   id?: string
+  createdAt?: Date | string
   code: string
   email: string
   expiresAt: Date | string
@@ -404,6 +428,7 @@ export type EmailVerificationTokenScalarWhereInput = {
   OR?: Prisma.EmailVerificationTokenScalarWhereInput[]
   NOT?: Prisma.EmailVerificationTokenScalarWhereInput | Prisma.EmailVerificationTokenScalarWhereInput[]
   id?: Prisma.StringFilter<"EmailVerificationToken"> | string
+  createdAt?: Prisma.DateTimeFilter<"EmailVerificationToken"> | Date | string
   code?: Prisma.StringFilter<"EmailVerificationToken"> | string
   email?: Prisma.StringFilter<"EmailVerificationToken"> | string
   expiresAt?: Prisma.DateTimeFilter<"EmailVerificationToken"> | Date | string
@@ -412,6 +437,7 @@ export type EmailVerificationTokenScalarWhereInput = {
 
 export type EmailVerificationTokenCreateManyUserInput = {
   id?: string
+  createdAt?: Date | string
   code: string
   email: string
   expiresAt: Date | string
@@ -419,6 +445,7 @@ export type EmailVerificationTokenCreateManyUserInput = {
 
 export type EmailVerificationTokenUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -426,6 +453,7 @@ export type EmailVerificationTokenUpdateWithoutUserInput = {
 
 export type EmailVerificationTokenUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -433,6 +461,7 @@ export type EmailVerificationTokenUncheckedUpdateWithoutUserInput = {
 
 export type EmailVerificationTokenUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -442,6 +471,7 @@ export type EmailVerificationTokenUncheckedUpdateManyWithoutUserInput = {
 
 export type EmailVerificationTokenSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  createdAt?: boolean
   code?: boolean
   email?: boolean
   expiresAt?: boolean
@@ -451,6 +481,7 @@ export type EmailVerificationTokenSelect<ExtArgs extends runtime.Types.Extension
 
 export type EmailVerificationTokenSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  createdAt?: boolean
   code?: boolean
   email?: boolean
   expiresAt?: boolean
@@ -460,6 +491,7 @@ export type EmailVerificationTokenSelectCreateManyAndReturn<ExtArgs extends runt
 
 export type EmailVerificationTokenSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  createdAt?: boolean
   code?: boolean
   email?: boolean
   expiresAt?: boolean
@@ -469,13 +501,14 @@ export type EmailVerificationTokenSelectUpdateManyAndReturn<ExtArgs extends runt
 
 export type EmailVerificationTokenSelectScalar = {
   id?: boolean
+  createdAt?: boolean
   code?: boolean
   email?: boolean
   expiresAt?: boolean
   userId?: boolean
 }
 
-export type EmailVerificationTokenOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "code" | "email" | "expiresAt" | "userId", ExtArgs["result"]["emailVerificationToken"]>
+export type EmailVerificationTokenOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "code" | "email" | "expiresAt" | "userId", ExtArgs["result"]["emailVerificationToken"]>
 export type EmailVerificationTokenInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -493,6 +526,7 @@ export type $EmailVerificationTokenPayload<ExtArgs extends runtime.Types.Extensi
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    createdAt: Date
     code: string
     email: string
     expiresAt: Date
@@ -922,6 +956,7 @@ export interface Prisma__EmailVerificationTokenClient<T, Null = never, ExtArgs e
  */
 export interface EmailVerificationTokenFieldRefs {
   readonly id: Prisma.FieldRef<"EmailVerificationToken", 'String'>
+  readonly createdAt: Prisma.FieldRef<"EmailVerificationToken", 'DateTime'>
   readonly code: Prisma.FieldRef<"EmailVerificationToken", 'String'>
   readonly email: Prisma.FieldRef<"EmailVerificationToken", 'String'>
   readonly expiresAt: Prisma.FieldRef<"EmailVerificationToken", 'DateTime'>

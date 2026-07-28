@@ -4,16 +4,20 @@ import { getAuth } from "@/features/auth/queries/get-auth";
 import { isOwner } from "@/features/auth/utils/is-owner";
 import { getActiveOrganization } from "@/features/organization/queries/get-active-organization";
 import { getTicketPermission } from "@/features/membership/queries/get-ticket-permission";
+import { PAGE_SIZES } from "@/components/pagination/constants";
 
 export const getTickets = async (
   userId: string | undefined,
   byOrganization: boolean,
-  searchParams: ParseSearchParams,
+  searchParams: Promise<ParseSearchParams>,
 ) => {
   const resolvedSearchParams = await searchParams;
 
   const { user } = await getAuth();
   const activeOrganization = await getActiveOrganization();
+  if (!PAGE_SIZES.includes(resolvedSearchParams.size)) {
+    throw new Error("Invalid page size");
+  }
 
   const where = {
     userId,

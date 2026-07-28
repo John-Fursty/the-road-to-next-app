@@ -7,6 +7,7 @@ import {
 import { getAuthOrRedirect } from "../queries/get-auth-or-redirect";
 import { sendEmailVerification } from "../emails/send-email-verification";
 import { generateEmailVerificationCode } from "../utils/generate-email-verification-code";
+import { canResendVerificationEmail } from "../utils/can-resend-verification-email";
 
 export const emailVerificationResend = async () => {
   const { user } = await getAuthOrRedirect({
@@ -16,6 +17,14 @@ export const emailVerificationResend = async () => {
   });
 
   try {
+    const canResend = await canResendVerificationEmail(user.id);
+
+    if (!canResend) {
+      return toActionState(
+        "ERROR",
+        "You can only resend the verification email once every minute",
+      );
+    }
     const verificationCode = await generateEmailVerificationCode(
       user.id,
       user.email,

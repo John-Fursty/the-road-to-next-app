@@ -140,6 +140,7 @@ export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof User
 
 export const EmailVerificationTokenScalarFieldEnum = {
   id: 'id',
+  createdAt: 'createdAt',
   code: 'code',
   email: 'email',
   expiresAt: 'expiresAt',
